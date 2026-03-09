@@ -30,7 +30,7 @@ $env:path_to_xml=".\data.xml"
 mvn package
 ```
 
-## Compile
+## Install
 ```Bash
 mvn install
 ```
