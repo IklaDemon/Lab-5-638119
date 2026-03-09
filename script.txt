@@ -1,0 +1,6 @@
+show
+add
+execute_script ./script.txt
+invalid bs 1
+invalid bs 2
+remove 123987
