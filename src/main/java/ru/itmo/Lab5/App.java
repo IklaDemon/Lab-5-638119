@@ -1,9 +1,9 @@
 package ru.itmo.Lab5;
 
-import ru.itmo.Lab5.classes.XMLWriter;
-import ru.itmo.Lab5.classes.CollectionManager;
-import ru.itmo.Lab5.classes.UserInputHandler;
-import ru.itmo.Lab5.classes.XMLParser;
+import ru.itmo.Lab5.manager.CollectionManager;
+import ru.itmo.Lab5.reader.XMLParser;
+import ru.itmo.Lab5.userInput.UserInputHandler;
+import ru.itmo.Lab5.writer.XMLWriter;
 
 /**
  * Entry point of the application
