@@ -152,8 +152,8 @@ public class CollectionManager {
     strBuilder.append("Size: ").append(collection.size()).append("\n");
     strBuilder.append("File: ").append(this.file.getPath()).append("\n");
     if (!collection.isEmpty()) {
-      strBuilder.append("Min element (by id): ").append(collection.peek().toString()).append("\n");
-      strBuilder.append("Max element (by id): ").append(getMax().toString()).append("\n");
+      strBuilder.append("Min element (by wingspan and id):\n").append(collection.peek().toString()).append("\n");
+      strBuilder.append("Max element (by wingspan and id):\n").append(getMax().toString()).append("\n");
     }
     return strBuilder.toString();
   }
