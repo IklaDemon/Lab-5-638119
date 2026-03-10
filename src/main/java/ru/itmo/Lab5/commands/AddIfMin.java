@@ -1,11 +1,12 @@
 package ru.itmo.Lab5.commands;
 
 import java.util.ArrayList;
-import ru.itmo.Lab5.classes.CollectionManager;
-import ru.itmo.Lab5.classes.Coordinates;
-import ru.itmo.Lab5.classes.Dragon;
-import ru.itmo.Lab5.classes.DragonCave;
+
+import ru.itmo.Lab5.dragon.Coordinates;
+import ru.itmo.Lab5.dragon.Dragon;
+import ru.itmo.Lab5.dragon.DragonCave;
 import ru.itmo.Lab5.interfaces.Command;
+import ru.itmo.Lab5.manager.CollectionManager;
 
 /**
  * Command that AddIfMin a dragon

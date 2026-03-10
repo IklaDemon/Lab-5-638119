@@ -24,12 +24,13 @@
 // If all exceptions are correctly managed, then it should not be hard to implement it.
 // Good insight: if in the script is present "execute_script file_name" then my program should not do it, for obvious reasons...
 
-package ru.itmo.Lab5.classes;
+package ru.itmo.Lab5.dragon;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import ru.itmo.Lab5.enums.DragonCharacter;
 import ru.itmo.Lab5.enums.DragonType;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * Represents a Dragon object stored in the collection.

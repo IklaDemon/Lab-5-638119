@@ -1,4 +1,4 @@
-package ru.itmo.Lab5.classes;
+package ru.itmo.Lab5.dragon;
 
 /**
  * Class Coordinates

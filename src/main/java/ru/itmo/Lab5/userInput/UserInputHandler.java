@@ -1,4 +1,4 @@
-package ru.itmo.Lab5.classes;
+package ru.itmo.Lab5.userInput;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -23,6 +23,7 @@ import ru.itmo.Lab5.commands.Show;
 import ru.itmo.Lab5.commands.Update;
 import ru.itmo.Lab5.enums.DragonCharacter;
 import ru.itmo.Lab5.enums.DragonType;
+import ru.itmo.Lab5.manager.CollectionManager;
 
 /**
  * This class handles the user interaction with the app.
@@ -43,8 +44,10 @@ public class UserInputHandler {
         try {
           commandBuffer.offer(scanner.nextLine().strip());
         } catch (NoSuchElementException e) {
-          System.out.println(e.getMessage());
-          continue;
+          System.out.println("CTRL + D generates a NoSuchElementException with message: " + e.getMessage() + ".");
+          System.out.println("App is terminated");
+          scanner.close();
+          return;
         } catch (IllegalStateException e) {
           System.out.println(e.getMessage());
           scanner.close();

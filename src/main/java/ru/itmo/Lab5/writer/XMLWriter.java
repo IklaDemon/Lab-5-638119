@@ -1,10 +1,12 @@
-package ru.itmo.Lab5.classes;
+package ru.itmo.Lab5.writer;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.PriorityQueue;
+
+import ru.itmo.Lab5.dragon.Dragon;
 import ru.itmo.Lab5.interfaces.Writer;
 
 /**

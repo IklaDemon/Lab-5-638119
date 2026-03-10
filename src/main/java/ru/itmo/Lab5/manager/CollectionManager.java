@@ -1,4 +1,4 @@
-package ru.itmo.Lab5.classes;
+package ru.itmo.Lab5.manager;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -6,12 +6,14 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.PriorityQueue;
 import java.util.Set;
+
+import ru.itmo.Lab5.dragon.Dragon;
 import ru.itmo.Lab5.enums.DragonCharacter;
 import ru.itmo.Lab5.interfaces.Reader;
 import ru.itmo.Lab5.interfaces.Writer;
 
 /**
- * Colelction Manager.
+ * Collection Manager.
  * managers the Priority queue made of dragons
  * manages also the IDs with a set
  */

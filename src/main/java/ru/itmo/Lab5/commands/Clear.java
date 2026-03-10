@@ -1,8 +1,8 @@
 package ru.itmo.Lab5.commands;
 
 import java.util.ArrayList;
-import ru.itmo.Lab5.classes.CollectionManager;
 import ru.itmo.Lab5.interfaces.Command;
+import ru.itmo.Lab5.manager.CollectionManager;
 
 /**
  * Clear command

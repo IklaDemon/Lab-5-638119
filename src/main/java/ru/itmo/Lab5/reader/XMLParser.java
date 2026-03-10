@@ -1,4 +1,4 @@
-package ru.itmo.Lab5.classes;
+package ru.itmo.Lab5.reader;
 
 import java.io.File;
 import java.text.ParseException;
@@ -7,6 +7,10 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.PriorityQueue;
 import java.util.Set;
+
+import ru.itmo.Lab5.dragon.Coordinates;
+import ru.itmo.Lab5.dragon.Dragon;
+import ru.itmo.Lab5.dragon.DragonCave;
 import ru.itmo.Lab5.interfaces.Reader;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;

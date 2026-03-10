@@ -1,8 +1,8 @@
 package ru.itmo.Lab5.commands;
 
 import java.util.ArrayList;
-import ru.itmo.Lab5.classes.CollectionManager;
 import ru.itmo.Lab5.interfaces.Command;
+import ru.itmo.Lab5.manager.CollectionManager;
 
 /**
  * Weird command that does what the exercise asked for
@@ -23,9 +23,9 @@ public class CountGreaterThanCave implements Command {
     double treasures = 0;
     try {
       treasures = Double.parseDouble(args.get(0));
+      if (treasures <= 0)
+        return "Cave number should be > 0";
       int n = collection.nGreaterThanCave(treasures);
-      if (n <= 0)
-        return "Argument should be > 0";
       return n + "\n";
     } catch (Exception e) {
       res += "Invalid argument: " + e.getMessage() + "\n";
