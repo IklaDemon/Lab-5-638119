@@ -32,8 +32,8 @@ public class Save implements Command {
   @Override
   public String usage() {
     String res = "";
-    res += "\n - save:\n";
-    res += "save the collection to a file\n";
+    res += " - save:\n";
+    res += "save the collection to a file";
     return res;
   }
 }

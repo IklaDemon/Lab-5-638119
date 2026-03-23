@@ -35,8 +35,8 @@ public class PrintFieldDescendingCharacter implements Command {
   @Override
   public String usage() {
     String res = "";
-    res += "\n - print_field_descending_character:\n";
-    res += "display the values of the character field of all elements in descending order\n";
+    res += " - print_field_descending_character:\n";
+    res += "display the values of the character field of all elements in descending order";
     return res;
   }
 }

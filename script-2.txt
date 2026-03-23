@@ -1,0 +1,3 @@
+show
+add
+executes ./script-1.txt

@@ -20,8 +20,8 @@ public class App {
         CollectionManager collectionManager = new CollectionManager(xmlParser, xmlWriter, env);
 
         // getting the commands from the user...
-        UserInputHandler userInputHandler = new UserInputHandler();
-        userInputHandler.readUserInput(collectionManager);
+        UserInputHandler userInputHandler = new UserInputHandler(collectionManager);
+        userInputHandler.runCLI();
 
       } else {
         System.out.println("No environment variable set");

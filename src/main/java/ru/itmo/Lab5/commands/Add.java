@@ -132,9 +132,9 @@ public class Add implements Command {
   @Override
   public String usage() {
     String res = "";
-    res += "\n - add {element}:\n";
+    res += " - add {element}:\n";
     res += "Adds a new element to the collection\n";
-    res += "Each attribute will be typed on a new line\n";
+    res += "Each attribute will be typed on a new line";
     return res;
   }
 }

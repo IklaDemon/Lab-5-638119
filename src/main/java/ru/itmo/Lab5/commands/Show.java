@@ -26,8 +26,8 @@ public class Show implements Command {
   @Override
   public String usage() {
     String res = "";
-    res += "\n - show:\n";
-    res += "Shows all elements from collection:\n";
+    res += " - show:\n";
+    res += "Shows all elements from collection:";
     return res;
   }
 }

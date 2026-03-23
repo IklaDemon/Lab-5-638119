@@ -104,8 +104,8 @@ public class AddIfMin implements Command {
   @Override
   public String usage() {
     String res = "";
-    res += "\n - add_if_min {element}:\n";
-    res += "Adds the element only if it is smaller than the current smallest present\n";
+    res += " - add_if_min {element}:\n";
+    res += "Adds the element only if it is smaller than the current smallest present";
     return res;
   }
 }

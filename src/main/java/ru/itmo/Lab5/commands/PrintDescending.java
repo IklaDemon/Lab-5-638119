@@ -27,8 +27,8 @@ public class PrintDescending implements Command {
   @Override
   public String usage() {
     String res = "";
-    res += "\n - print_descending:\n";
-    res += "display the elements of a collection in descending order\n";
+    res += " - print_descending:\n";
+    res += "display the elements of a collection in descending order";
     return res;
   }
 

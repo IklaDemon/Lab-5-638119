@@ -36,8 +36,8 @@ public class CountGreaterThanCave implements Command {
   @Override
   public String usage() {
     String res = "";
-    res += "\n - count_greater_than_cave cave:\n";
-    res += "display the number of elements whose cave field value is greater than the specified value\n";
+    res += " - count_greater_than_cave cave:\n";
+    res += "display the number of elements whose cave field value is greater than the specified value";
     return res;
   }
 

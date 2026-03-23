@@ -99,8 +99,8 @@ public class RemoveLower implements Command {
   @Override
   public String usage() {
     String res = "";
-    res += "\n - remove_lower {element}:\n";
-    res += "Removes the elements smaller than the given one\n";
+    res += " - remove_lower {element}:\n";
+    res += "Removes the elements smaller than the given one";
     return res;
   }
 

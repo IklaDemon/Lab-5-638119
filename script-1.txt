@@ -1,0 +1,5 @@
+show
+executes ./script-2.txt
+show
+info
+executes ./script-2.txt

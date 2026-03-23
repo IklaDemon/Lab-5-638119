@@ -26,8 +26,8 @@ public class Info implements Command {
   @Override
   public String usage() {
     String res = "";
-    res += "\n - info:\n";
-    res += "Prints information about the collection:\n";
+    res += " - info:\n";
+    res += "Prints information about the collection:";
     return res;
   }
 }

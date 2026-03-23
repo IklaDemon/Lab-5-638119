@@ -38,8 +38,8 @@ public class RemoveById implements Command {
   @Override
   public String usage() {
     String res = "";
-    res += "\n - remove_by_id id:\n";
-    res += "Removes the element with the specified id\n";
+    res += " - remove_by_id id:\n";
+    res += "Removes the element with the specified id";
     return res;
   }
 }

@@ -108,8 +108,8 @@ public class AddIfMax implements Command {
   @Override
   public String usage() {
     String res = "";
-    res += "\n - add_if_max {element}:\n";
-    res += "Adds the element only if it is bigger than the current biggest present\n";
+    res += " - add_if_max {element}:\n";
+    res += "Adds the element only if it is bigger than the current biggest present";
     return res;
   }
 

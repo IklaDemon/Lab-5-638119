@@ -120,9 +120,9 @@ public class Update implements Command {
   @Override
   public String usage() {
     String res = "";
-    res += "\n - update id {element}:\n";
+    res += " - update id {element}:\n";
     res += "Updates the element with the specified id\n";
-    res += "Each attribute will be typed on a new line\n";
+    res += "Each attribute will be typed on a new line";
     return res;
   }
 }
