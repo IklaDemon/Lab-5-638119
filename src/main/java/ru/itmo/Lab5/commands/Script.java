@@ -49,7 +49,7 @@ public class Script {
         String command = scanner.nextLine().strip();
         String[] commandParts = command.split("\\s+");
 
-        if (commandParts.length == 2 && commandParts[0].equals("executes")) {
+        if (commandParts.length == 2 && commandParts[0].equals("execute_script")) {
           try {
             File nextScript = this.getFile(new File(script.getParentFile(), commandParts[1]).getAbsolutePath());
             if (this.history.add(nextScript.getCanonicalPath()) == true)
@@ -69,6 +69,18 @@ public class Script {
     } finally {
       history.remove(canonicalPath);
     }
+  }
+
+  public static ArrayList<String> parseInlineDragon(String inlineDragon) {
+    // ID,name,coordinates.x,coordinates.y,creationDate,age,wingspan,type,character,cave.
+    // ---1----2-------------3--------------------------4---5--------6----7---------8
+    ArrayList<String> dragonParts = new ArrayList<>();
+
+    for (String string : inlineDragon.split(",")) {
+      dragonParts.add(string);
+    }
+
+    return dragonParts;
   }
 
   private File getFile(String filePath) {

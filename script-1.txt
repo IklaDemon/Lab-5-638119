@@ -1,5 +1,4 @@
 show
-executes ./script-2.txt
+execute_script ./script-2.txt
 show
 info
-executes ./script-2.txt

@@ -58,16 +58,15 @@ public class UserInputHandler {
     this.commands.put("show", new Show(this.collectionManager));
     this.commands.put("add", new Add(this.collectionManager));
     this.commands.put("update", new Update(this.collectionManager));
-    this.commands.put("remove", new RemoveById(this.collectionManager));
+    this.commands.put("remove_by_id", new RemoveById(this.collectionManager));
     this.commands.put("clear", new Clear(this.collectionManager));
     this.commands.put("save", new Save(this.collectionManager));
-    // this.commands.put("executes", new ExecuteScript(this.collectionManager));
-    this.commands.put("addmax", new AddIfMax(this.collectionManager));
-    this.commands.put("addmin", new AddIfMin(this.collectionManager));
-    this.commands.put("removel", new RemoveLower(this.collectionManager));
-    this.commands.put("countgtc", new CountGreaterThanCave(this.collectionManager));
-    this.commands.put("printd", new PrintDescending(this.collectionManager));
-    this.commands.put("printfdc", new PrintFieldDescendingCharacter(this.collectionManager));
+    this.commands.put("add_if_max", new AddIfMax(this.collectionManager));
+    this.commands.put("add_if_min", new AddIfMin(this.collectionManager));
+    this.commands.put("remove_lower", new RemoveLower(this.collectionManager));
+    this.commands.put("count_greater_than_cave", new CountGreaterThanCave(this.collectionManager));
+    this.commands.put("print_descending", new PrintDescending(this.collectionManager));
+    this.commands.put("print_field_descending_character", new PrintFieldDescendingCharacter(this.collectionManager));
     this.commands.put("exit", new Exit());
     this.commands.put("", new Blank());
     this.commands.put("help", new Help(this.commands));
@@ -98,10 +97,21 @@ public class UserInputHandler {
 
       command = commandBuffer.poll().split("\\s+");
 
-      if (command[0].equals("executes")) {
+      if (command[0].equals("execute_script")) {
+        if (command.length != 2) {
+          System.out.print("Wrong number of arguments\n");
+          continue;
+        }
         Script script = new Script();
-        script.load("./script-1.txt");
-        System.out.println(script.getCommands().toString());
+        try {
+          script.load(command[1]);
+        } catch (IllegalArgumentException e) {
+          System.out.println(e.getMessage());
+          continue;
+        }
+        for (String string : script.getCommands()) {
+          commandBuffer.offer(string);
+        }
         continue;
       }
 
@@ -109,6 +119,45 @@ public class UserInputHandler {
       if (out == null) {
         System.out.print(command[0] + " is not a valid command. Type 'help' for a list of valid commands\n");
       } else {
+
+        if (command[0].equals("add") && command.length == 2) {
+          args = Script.parseInlineDragon(command[1]);
+        } else if (command[0].equals("update") && command.length == 3) {
+          args = Script.parseInlineDragon(command[2]);
+          args.add(command[1]);
+        } else if ((command[0].equals("add_if_max") || command[0].equals("add_if_mim")
+            || command[0].equals("remove_lower"))
+            && command.length == 2) {
+          args = Script.parseInlineDragon(command[1]);
+        } else if (command[0].equals("add") && command.length == 1) {
+          args = this.getDragonFromUser(scanner);
+        } else if (command[0].equals("update") && command.length == 2) {
+          args = this.getDragonFromUser(scanner);
+          args.add(command[1]);
+        } else if ((command[0].equals("add_if_max") || command[0].equals("add_if_min")
+            || command[0].equals("remove_lower"))
+            && command.length == 1) {
+          args = this.getDragonFromUser(scanner);
+        } else if ((command[0].equals("remove_by_id") || (command[0].equals("count_greater_than_cave")))
+            && command.length == 2) {
+          args.clear();
+          args.add(command[1]);
+        } else if ((command[0].equals("help")
+            || (command[0].equals("info"))
+            || (command[0].equals("show"))
+            || (command[0].equals("clear"))
+            || (command[0].equals("save"))
+            || (command[0].equals("exit"))
+            || (command[0].equals("print_descending"))
+            || (command[0].equals(""))
+            || (command[0].equals("print_field_descending_character")))
+            && command.length == 1) {
+          args.clear();
+        } else {
+          System.out.print("Wrong number of arguments\n");
+          continue;
+        }
+
         this.res = out.exec(args);
       }
 
@@ -117,156 +166,7 @@ public class UserInputHandler {
       } else {
         System.out.print(res);
       }
-
-      // switch (command[0]) {
-      // case "":
-      // continue;
-      //
-      // case "help":
-      // Help help = new Help(collectionManager);
-      // System.out.print(help.exec(null) + "\n");
-      // break;
-      //
-      // case "info":
-      // Info info = new Info(collectionManager);
-      // System.out.print(info.exec(null));
-      // break;
-      //
-      // case "show":
-      // Show show = new Show(collectionManager);
-      // System.out.print(show.exec(null));
-      // break;
-      //
-      // case "add":
-      // Add add = new Add(collectionManager);
-      // System.out.print(add.exec(this.getDragonFromUser(scanner)));
-      // break;
-      //
-      // case "update":
-      // if (command.length < 2) {
-      // System.out.println("Not enough arguments");
-      // continue;
-      // }
-      // try {
-      // Long.parseLong(command[1]);
-      // } catch (Exception e) {
-      // System.out.println("Invalid id");
-      // continue;
-      // }
-      // args = this.getDragonFromUser(scanner);
-      // args.add(command[1]);
-      // Update update = new Update(collectionManager);
-      // System.out.print(update.exec(args));
-      // break;
-      //
-      // // + ID
-      // case "remove_by_id":
-      // if (command.length < 2) {
-      // System.out.println("Not enough arguments");
-      // continue;
-      // }
-      // try {
-      // Long.parseLong(command[1]);
-      // } catch (Exception e) {
-      // System.out.println("Long is needed for second argument");
-      // }
-      // args.clear();
-      // args.add(command[1]);
-      // RemoveById removeById = new RemoveById(collectionManager);
-      // System.out.print(removeById.exec(args));
-      // break;
-      //
-      // case "clear":
-      // Clear clear = new Clear(collectionManager);
-      // System.out.println(clear.exec(args));
-      // break;
-      //
-      // case "save":
-      // Save save = new Save(collectionManager);
-      // System.out.println(save.exec(null));
-      // break;
-      //
-      // // TODO: fix the script
-      // case "execute_script":
-      // Set<String> scriptFilesHistory = new HashSet<String>(); // I should use this
-      //
-      // if (command.length < 2) {
-      // System.out.println("Not enough arguments");
-      // continue;
-      // }
-      // File file = new File(command[1]);
-      // if (!file.exists() || file.isDirectory()) {
-      // System.out.println("invalid file");
-      // continue;
-      // }
-      // try (Scanner fileReader = new Scanner(file)) {
-      // while (fileReader.hasNextLine()) {
-      // String line = fileReader.nextLine().strip();
-      // if (!line.isEmpty() && !line.contains("execute_script")) {
-      // System.out.println(line);
-      // commandBuffer.offer(line);
-      // }
-      // }
-      // } catch (FileNotFoundException e) {
-      // System.out.println("invalid file: " + e.getMessage());
-      // }
-      // break;
-      //
-      // case "exit":
-      // exit = true;
-      // continue;
-      //
-      // case "add_if_max":
-      // AddIfMax addIfMax = new AddIfMax(collectionManager);
-      // System.out.println(addIfMax.exec(this.getDragonFromUser(scanner)));
-      // continue;
-      //
-      // case "add_if_min":
-      // AddIfMin addIfMin = new AddIfMin(collectionManager);
-      // System.out.println(addIfMin.exec(this.getDragonFromUser(scanner)));
-      // continue;
-      //
-      // case "remove_lower":
-      // RemoveLower removeLower = new RemoveLower(collectionManager);
-      // System.out.println(removeLower.exec(this.getDragonFromUser(scanner)));
-      // continue;
-      //
-      // case "count_greater_than_cave":
-      // if (command.length < 2) {
-      // System.out.println("Not enough arguments");
-      // continue;
-      // }
-      // try {
-      // Double.parseDouble(command[1]);
-      // } catch (Exception e) {
-      // System.out.println("Double is needed as second argument");
-      // continue;
-      // }
-      // args.clear();
-      // args.add(command[1]);
-      // CountGreaterThanCave countGreaterThanCave = new
-      // CountGreaterThanCave(collectionManager);
-      // System.out.println(countGreaterThanCave.exec(args));
-      // continue;
-      //
-      // case "print_descending":
-      // PrintDescending printDescending = new PrintDescending(collectionManager);
-      // System.out.println(printDescending.exec(null));
-      // continue;
-      //
-      // case "print_field_descending_character":
-      // PrintFieldDescendingCharacter printFieldDescendingCharacter = new
-      // PrintFieldDescendingCharacter(
-      // collectionManager);
-      // System.out.println(printFieldDescendingCharacter.exec(null));
-      // continue;
-      //
-      // default:
-      // System.out.println("Invalid input. Type help for set of available commands");
-      // continue;
-      // }
     }
-
     scanner.close();
   }
 
@@ -294,7 +194,7 @@ public class UserInputHandler {
           try {
             Long.parseLong(arg);
           } catch (NumberFormatException e) {
-            System.out.println("Type a valid number");
+            System.out.println("Type a valid number.");
             continue;
           }
           args.add(arg.strip());
@@ -306,7 +206,7 @@ public class UserInputHandler {
           try {
             Long.parseLong(arg);
           } catch (NumberFormatException e) {
-            System.out.println("Type a valid number");
+            System.out.println("Type a valid number. Cannot be null.");
             continue;
           }
           args.add(arg.strip());
@@ -322,11 +222,11 @@ public class UserInputHandler {
             try {
               int a = Integer.parseInt(arg);
               if (a <= 0) {
-                System.out.println("Age should be > 0");
+                System.out.println("Age should be > 0.");
                 continue;
               }
             } catch (NumberFormatException e) {
-              System.out.println("Type a valid number");
+              System.out.println("Type a valid number. Should be > 0. Not null");
               continue;
             }
             args.add(arg.strip());
@@ -347,7 +247,7 @@ public class UserInputHandler {
               continue;
             }
           } catch (NumberFormatException e) {
-            System.out.println("Type a valid number");
+            System.out.println("Wingspan should not be empty or null. Should be > 0");
             continue;
           }
           args.add(arg.strip());
@@ -361,8 +261,8 @@ public class UserInputHandler {
             state = 6;
           } else {
             try {
-              DragonType.valueOf(arg);
-              args.add(arg.strip());
+              DragonType.valueOf(arg.toUpperCase());
+              args.add(arg.strip().toUpperCase());
               state = 6;
             } catch (Exception e) {
               System.out.println("Invalid option.");
@@ -378,8 +278,8 @@ public class UserInputHandler {
             state = 7;
           } else {
             try {
-              DragonCharacter.valueOf(arg);
-              args.add(arg.strip());
+              DragonCharacter.valueOf(arg.toUpperCase());
+              args.add(arg.strip().toUpperCase());
               state = 7;
             } catch (Exception e) {
               System.out.println("Invalid option.");
@@ -407,7 +307,7 @@ public class UserInputHandler {
             args.add(arg.strip());
             state = 9;
           } catch (NumberFormatException e) {
-            System.out.println("Type a valid number");
+            System.out.println("Type a valid number. Should be > 0. Not null");
             continue;
           }
           break;

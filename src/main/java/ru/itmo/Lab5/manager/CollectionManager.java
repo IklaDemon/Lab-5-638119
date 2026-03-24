@@ -144,6 +144,7 @@ public class CollectionManager {
   }
 
   public void clear() {
+    this.iDs.clear();
     collection.clear();
   }
 

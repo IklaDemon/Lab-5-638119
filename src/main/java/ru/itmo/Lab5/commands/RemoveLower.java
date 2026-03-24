@@ -24,6 +24,12 @@ public class RemoveLower implements Command {
   public String exec(ArrayList<String> args) {
     String res = "";
     Dragon.Builder dragonBuilder = new Dragon.Builder();
+
+    if (args.size() != 8) {
+      res += "Not enough arguments for the dragon\n";
+      return res;
+    }
+
     try {
       dragonBuilder.id(this.collection.genNewID());
     } catch (IllegalArgumentException e) {
@@ -44,7 +50,7 @@ public class RemoveLower implements Command {
     }
     dragonBuilder.creationDate(collection.genNewDate());
     try {
-      if (args.get(3).isBlank() || args.get(3).isEmpty()) {
+      if (args.get(3).isBlank() || args.get(3).isEmpty() || args.get(3).toLowerCase().equals("null")) {
         dragonBuilder.age(null);
       } else {
         dragonBuilder.age(Integer.parseInt(args.get(3)));
@@ -58,7 +64,7 @@ public class RemoveLower implements Command {
       res += "Problem with the wingspan: " + e.getMessage() + "\n";
     }
     try {
-      if (args.get(5).isBlank() || args.get(5).isEmpty()) {
+      if (args.get(5).isBlank() || args.get(5).isEmpty() || args.get(5).toLowerCase().equals("null")) {
         dragonBuilder.type(null);
       } else {
         dragonBuilder.type(args.get(5));
@@ -67,7 +73,7 @@ public class RemoveLower implements Command {
       res += "Problem with the dragon type: " + e.getMessage() + "\n";
     }
     try {
-      if (args.get(6).isBlank() || args.get(6).isEmpty()) {
+      if (args.get(6).isBlank() || args.get(6).isEmpty() || args.get(6).toLowerCase().equals("null")) {
         dragonBuilder.character(null);
       } else {
         dragonBuilder.character(args.get(6));
@@ -76,7 +82,7 @@ public class RemoveLower implements Command {
       res += "Problem with the dragon character: " + e.getMessage() + "\n";
     }
     try {
-      if (args.get(7).isBlank() || args.get(7).isEmpty()) {
+      if (args.get(7).isBlank() || args.get(7).isEmpty() || args.get(7).toLowerCase().equals("null")) {
         dragonBuilder.cave(null);
       } else {
         dragonBuilder.cave(new DragonCave(Double.parseDouble(args.get(7))));

@@ -20,7 +20,7 @@ public class Clear implements Command {
   @Override
   public String exec(ArrayList<String> args) {
     collection.clear();
-    return "Collection cleared";
+    return "Collection cleared\n";
   }
 
   @Override

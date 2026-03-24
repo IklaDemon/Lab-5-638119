@@ -1,19 +1,17 @@
 <dragons>
     <dragon>
         <id>1</id>
-        <name>Kalameet</name>
+        <name>robert-2</name>
         <coordinates>
             <x>1</x>
             <y>1</y>
         </coordinates>
         <creationDate>10-11-2024</creationDate>
-        <age>300</age>
-        <wingspan>20.0</wingspan>
-        <type>UNDERGROUND</type>
-        <character>WISE</character>
-        <cave>
-            <numberOfTreasures>5.0</numberOfTreasures>
-        </cave>
+        <age></age>
+        <wingspan>1.0</wingspan>
+        <type></type>
+        <character></character>
+        <cave></cave>
     </dragon>
     <dragon>
         <id>5</id>
@@ -30,20 +28,18 @@
         <cave></cave>
     </dragon>
     <dragon>
-        <id>3</id>
-        <name>Bambo</name>
+        <id>7</id>
+        <name>robert-1</name>
         <coordinates>
-            <x>5</x>
-            <y>20</y>
+            <x>1</x>
+            <y>1</y>
         </coordinates>
-        <creationDate>09-03-2026</creationDate>
-        <age>20</age>
-        <wingspan>30.0</wingspan>
-        <type>AIR</type>
-        <character>GOOD</character>
-        <cave>
-            <numberOfTreasures>10.0</numberOfTreasures>
-        </cave>
+        <creationDate>24-03-2026</creationDate>
+        <age></age>
+        <wingspan>1.0</wingspan>
+        <type></type>
+        <character></character>
+        <cave></cave>
     </dragon>
     <dragon>
         <id>2</id>
@@ -86,5 +82,21 @@
         <type></type>
         <character></character>
         <cave></cave>
+    </dragon>
+    <dragon>
+        <id>3</id>
+        <name>Bambo</name>
+        <coordinates>
+            <x>5</x>
+            <y>20</y>
+        </coordinates>
+        <creationDate>09-03-2026</creationDate>
+        <age>20</age>
+        <wingspan>30.0</wingspan>
+        <type>AIR</type>
+        <character>GOOD</character>
+        <cave>
+            <numberOfTreasures>10.0</numberOfTreasures>
+        </cave>
     </dragon>
 </dragons>
