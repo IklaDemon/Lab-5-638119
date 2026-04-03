@@ -10,12 +10,22 @@ public class Exit implements Command {
   }
 
   @Override
-  public String exec(ArrayList<String> args) {
+  public String exec(String args) {
     return "exit";
   }
 
   @Override
   public String usage() {
     return " - exit:\nExits the program without saving";
+  }
+
+  @Override
+  public int numberOfArgs() {
+    return 0;
+  }
+
+  @Override
+  public boolean requiresDragon() {
+    return false;
   }
 }

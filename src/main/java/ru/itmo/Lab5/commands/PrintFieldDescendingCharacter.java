@@ -21,7 +21,7 @@ public class PrintFieldDescendingCharacter implements Command {
   }
 
   @Override
-  public String exec(ArrayList<String> args) {
+  public String exec(String arg) {
     String res = "";
     ArrayList<DragonCharacter> characters = collection.getCharacters();
     characters.removeIf(Objects::isNull);
@@ -38,5 +38,15 @@ public class PrintFieldDescendingCharacter implements Command {
     res += " - print_field_descending_character:\n";
     res += "display the values of the character field of all elements in descending order";
     return res;
+  }
+
+  @Override
+  public int numberOfArgs() {
+    return 0;
+  }
+
+  @Override
+  public boolean requiresDragon() {
+    return false;
   }
 }

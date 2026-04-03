@@ -1,6 +1,5 @@
 package ru.itmo.Lab5.commands;
 
-import java.util.ArrayList;
 import ru.itmo.Lab5.interfaces.Command;
 import ru.itmo.Lab5.manager.CollectionManager;
 
@@ -18,7 +17,7 @@ public class PrintDescending implements Command {
   }
 
   @Override
-  public String exec(ArrayList<String> args) {
+  public String exec(String args) {
     String res = "";
     res = collection.getDecreasing();
     return res;
@@ -30,6 +29,16 @@ public class PrintDescending implements Command {
     res += " - print_descending:\n";
     res += "display the elements of a collection in descending order";
     return res;
+  }
+
+  @Override
+  public int numberOfArgs() {
+    return 0;
+  }
+
+  @Override
+  public boolean requiresDragon() {
+    return false;
   }
 
 }

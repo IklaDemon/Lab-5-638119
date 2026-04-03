@@ -18,7 +18,7 @@ public class Save implements Command {
   }
 
   @Override
-  public String exec(ArrayList<String> args) {
+  public String exec(String arg) {
     String res = "";
     boolean status = collection.exportToExternalSource();
     if (status) {
@@ -35,5 +35,15 @@ public class Save implements Command {
     res += " - save:\n";
     res += "save the collection to a file";
     return res;
+  }
+
+  @Override
+  public int numberOfArgs() {
+    return 0;
+  }
+
+  @Override
+  public boolean requiresDragon() {
+    return false;
   }
 }

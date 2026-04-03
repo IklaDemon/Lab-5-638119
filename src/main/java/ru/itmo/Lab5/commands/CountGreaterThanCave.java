@@ -18,18 +18,18 @@ public class CountGreaterThanCave implements Command {
   }
 
   @Override
-  public String exec(ArrayList<String> args) {
+  public String exec(String args) {
     String res = "";
-    double treasures = 0;
-    try {
-      treasures = Double.parseDouble(args.get(0));
-      if (treasures <= 0)
-        return "Cave number should be > 0";
-      int n = collection.nGreaterThanCave(treasures);
-      return n + "\n";
-    } catch (Exception e) {
-      res += "Invalid argument: " + e.getMessage() + "\n";
-    }
+    // double treasures = 0;
+    // try {
+    // treasures = Double.parseDouble(args.get(0));
+    // if (treasures <= 0)
+    // return "Cave number should be > 0";
+    // int n = collection.nGreaterThanCave(treasures);
+    // return n + "\n";
+    // } catch (Exception e) {
+    // res += "Invalid argument: " + e.getMessage() + "\n";
+    // }
     return res;
   }
 
@@ -39,6 +39,16 @@ public class CountGreaterThanCave implements Command {
     res += " - count_greater_than_cave cave:\n";
     res += "display the number of elements whose cave field value is greater than the specified value";
     return res;
+  }
+
+  @Override
+  public int numberOfArgs() {
+    return 1;
+  }
+
+  @Override
+  public boolean requiresDragon() {
+    return false;
   }
 
 }

@@ -1,10 +1,6 @@
 package ru.itmo.Lab5.commands;
 
-import java.util.ArrayList;
-
-import ru.itmo.Lab5.dragon.Coordinates;
 import ru.itmo.Lab5.dragon.Dragon;
-import ru.itmo.Lab5.dragon.DragonCave;
 import ru.itmo.Lab5.interfaces.Command;
 import ru.itmo.Lab5.manager.CollectionManager;
 
@@ -19,6 +15,16 @@ public class Add implements Command {
       throw new NullPointerException("Collection manager is null");
     }
     this.collection = collection;
+  }
+
+  @Override
+  public int numberOfArgs() {
+    return 1;
+  }
+
+  @Override
+  public boolean requiresDragon() {
+    return true;
   }
 
   /*
@@ -37,99 +43,124 @@ public class Add implements Command {
    * - - number of trreasures: not null, > 0
    */
   @Override
-  public String exec(ArrayList<String> args) {
-    Dragon.Builder dragonBuilder = new Dragon.Builder();
+  public String exec(String arg) {
+
     String res = "";
 
-    if (args.size() != 8) {
-      res += "Not enough arguments for the dragon\n";
-      return res;
+    // TODO: I need to create a method that takes the dragon in the arg, and checks
+    // that is ok
+
+    String args[] = arg.split("\\s+");
+
+    if (args.length != this.numberOfArgs()) {
+      return "Wrong number of argument/s. " + this.numberOfArgs() + " argument/s are needed\n";
     }
 
-    // creating a new ID
     try {
-      dragonBuilder.id(this.collection.genNewID());
+      Dragon dragon = new Dragon(args[0]);
+      collection.addDragon(dragon);
+      res += "Created new Dragon: " + dragon.getName() + "\n";
     } catch (IllegalArgumentException e) {
-      res += "Problem generating ID: " + e.getMessage() + "\n";
-    }
-
-    // Dragon name
-    try {
-      dragonBuilder.name(args.get(0));
-    } catch (Exception e) {
-      res += "Problem with the name: " + e.getMessage() + "\n";
-    }
-
-    // Coordinates
-    try {
-      Coordinates coordinate = new Coordinates(0L, 0L);
-      coordinate.setX(Long.parseLong(args.get(1)));
-      coordinate.setY(Long.parseLong(args.get(2)));
-      dragonBuilder.coordinates(coordinate);
-    } catch (Exception e) {
-      res += "Problem with the coordinate: " + e.getMessage() + "\n";
-    }
-
-    // Date
-    dragonBuilder.creationDate(collection.genNewDate());
-
-    // Dragon age
-    try {
-      if (args.get(3).isBlank() || args.get(3).isEmpty() || args.get(3).toLowerCase().equals("null")) {
-        dragonBuilder.age(null);
-      } else {
-        dragonBuilder.age(Integer.parseInt(args.get(3)));
-      }
-    } catch (Exception e) {
-      res += "Problem with the age: " + e.getMessage() + "\n";
-    }
-
-    // Wingspan
-    try {
-      dragonBuilder.wingspan(Double.parseDouble(args.get(4)));
-    } catch (Exception e) {
-      res += "Problem with the wingspan: " + e.getMessage() + "\n";
-    }
-
-    // Dragon type
-    try {
-      if (args.get(5).isBlank() || args.get(5).isEmpty() || args.get(5).toLowerCase().equals("null")) {
-        dragonBuilder.type(null);
-      } else {
-        dragonBuilder.type(args.get(5));
-      }
-    } catch (Exception e) {
-      res += "Problem with the dragon type: " + e.getMessage() + "\n";
-    }
-
-    // Dragon character
-    try {
-      if (args.get(6).isBlank() || args.get(6).isEmpty() || args.get(6).toLowerCase().equals("null")) {
-        dragonBuilder.character(null);
-      } else {
-        dragonBuilder.character(args.get(6));
-      }
-    } catch (Exception e) {
-      res += "Problem with the dragon character: " + e.getMessage() + "\n";
-    }
-
-    // Cave
-    try {
-      if (args.get(7).isBlank() || args.get(7).isEmpty() || args.get(7).toLowerCase().equals("null")) {
-        dragonBuilder.cave(null);
-      } else {
-        dragonBuilder.cave(new DragonCave(Double.parseDouble(args.get(7))));
-      }
-    } catch (Exception e) {
-      res += "Problem with the dragon cave: " + e.getMessage() + "\n";
-    }
-
-    if (res.isBlank()) {
-      collection.addDragon(dragonBuilder.build());
-      res += "Created new Dragon: " + args.get(0) + "\n";
+      res += e.getMessage();
+    } catch (IndexOutOfBoundsException e) {
+      res += e.getMessage();
     }
 
     return res;
+
+    /*
+     * if (args.size() != 8) {
+     * res += "Not enough arguments for the dragon\n";
+     * return res;
+     * }
+     * 
+     * // creating a new ID
+     * try {
+     * dragonBuilder.id(this.collection.genNewID());
+     * } catch (IllegalArgumentException e) {
+     * res += "Problem generating ID: " + e.getMessage() + "\n";
+     * }
+     * 
+     * // Dragon name
+     * try {
+     * dragonBuilder.name(args.get(0));
+     * } catch (Exception e) {
+     * res += "Problem with the name: " + e.getMessage() + "\n";
+     * }
+     * 
+     * // Coordinates
+     * try {
+     * Coordinates coordinate = new Coordinates(0L, 0L);
+     * coordinate.setX(Long.parseLong(args.get(1)));
+     * coordinate.setY(Long.parseLong(args.get(2)));
+     * dragonBuilder.coordinates(coordinate);
+     * } catch (Exception e) {
+     * res += "Problem with the coordinate: " + e.getMessage() + "\n";
+     * }
+     * 
+     * // Date
+     * dragonBuilder.creationDate(collection.genNewDate());
+     * 
+     * // Dragon age
+     * try {
+     * if (args.get(3).isBlank() || args.get(3).isEmpty() ||
+     * args.get(3).toLowerCase().equals("null")) {
+     * dragonBuilder.age(null);
+     * } else {
+     * dragonBuilder.age(Integer.parseInt(args.get(3)));
+     * }
+     * } catch (Exception e) {
+     * res += "Problem with the age: " + e.getMessage() + "\n";
+     * }
+     * 
+     * // Wingspan
+     * try {
+     * dragonBuilder.wingspan(Double.parseDouble(args.get(4)));
+     * } catch (Exception e) {
+     * res += "Problem with the wingspan: " + e.getMessage() + "\n";
+     * }
+     * 
+     * // Dragon type
+     * try {
+     * if (args.get(5).isBlank() || args.get(5).isEmpty() ||
+     * args.get(5).toLowerCase().equals("null")) {
+     * dragonBuilder.type(null);
+     * } else {
+     * dragonBuilder.type(args.get(5));
+     * }
+     * } catch (Exception e) {
+     * res += "Problem with the dragon type: " + e.getMessage() + "\n";
+     * }
+     * 
+     * // Dragon character
+     * try {
+     * if (args.get(6).isBlank() || args.get(6).isEmpty() ||
+     * args.get(6).toLowerCase().equals("null")) {
+     * dragonBuilder.character(null);
+     * } else {
+     * dragonBuilder.character(args.get(6));
+     * }
+     * } catch (Exception e) {
+     * res += "Problem with the dragon character: " + e.getMessage() + "\n";
+     * }
+     * 
+     * // Cave
+     * try {
+     * if (args.get(7).isBlank() || args.get(7).isEmpty() ||
+     * args.get(7).toLowerCase().equals("null")) {
+     * dragonBuilder.cave(null);
+     * } else {
+     * dragonBuilder.cave(new DragonCave(Double.parseDouble(args.get(7))));
+     * }
+     * } catch (Exception e) {
+     * res += "Problem with the dragon cave: " + e.getMessage() + "\n";
+     * }
+     * 
+     * if (res.isBlank()) {
+     * collection.addDragon(dragonBuilder.build());
+     * res += "Created new Dragon: " + args.get(0) + "\n";
+     * }
+     */
   }
 
   @Override

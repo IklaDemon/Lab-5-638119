@@ -1,11 +1,9 @@
 /**
- * TODO: For the the script command I should be able to call more scripts until a loop is not created...
- * TODO: I should try to find out how to execute all of this using a hashmap...
- * TODO: When I run a script, and in the script is present the add or update command. All the data shoul be in-line
- * TODO: I will have to test everything better
+ * TODO: убрать валидацию из команды
+ * TODO: уменьшить InputReader (the user input handler: the if else are awful)
  */
 
-package ru.itmo.Lab5.userInput;
+package ru.itmo.Lab5.console;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -15,23 +13,7 @@ import java.util.NoSuchElementException;
 import java.util.Queue;
 import java.util.Scanner;
 
-import ru.itmo.Lab5.commands.Add;
-import ru.itmo.Lab5.commands.AddIfMax;
-import ru.itmo.Lab5.commands.AddIfMin;
-import ru.itmo.Lab5.commands.Blank;
-import ru.itmo.Lab5.commands.Clear;
-import ru.itmo.Lab5.commands.CountGreaterThanCave;
-import ru.itmo.Lab5.commands.Exit;
-import ru.itmo.Lab5.commands.Help;
-import ru.itmo.Lab5.commands.Info;
-import ru.itmo.Lab5.commands.PrintDescending;
-import ru.itmo.Lab5.commands.PrintFieldDescendingCharacter;
-import ru.itmo.Lab5.commands.RemoveById;
-import ru.itmo.Lab5.commands.RemoveLower;
-import ru.itmo.Lab5.commands.Save;
-import ru.itmo.Lab5.commands.Script;
-import ru.itmo.Lab5.commands.Show;
-import ru.itmo.Lab5.commands.Update;
+import ru.itmo.Lab5.commands.*;
 import ru.itmo.Lab5.enums.DragonCharacter;
 import ru.itmo.Lab5.enums.DragonType;
 import ru.itmo.Lab5.interfaces.Command;
@@ -42,13 +24,13 @@ import ru.itmo.Lab5.manager.CollectionManager;
  * Asks input to the user and sanitizes it a bit, then gives the input to the
  * proper command
  */
-public class UserInputHandler {
+public class CLI {
   private Map<String, Command> commands;
   CollectionManager collectionManager;
   Queue<String> commandBuffer;
   private String res;
 
-  public UserInputHandler(CollectionManager collectionManager) {
+  public CLI(CollectionManager collectionManager) {
     if (collectionManager == null)
       throw new NullPointerException();
     this.collectionManager = collectionManager;
@@ -73,8 +55,7 @@ public class UserInputHandler {
   }
 
   public void runCLI() {
-    ArrayList<String> args = new ArrayList<String>();
-    String[] command;
+    String[] inputCommand;
     Scanner scanner = new Scanner(System.in);
 
     while (true) {
@@ -95,16 +76,16 @@ public class UserInputHandler {
         }
       }
 
-      command = commandBuffer.poll().split("\\s+");
+      inputCommand = commandBuffer.poll().split("\\s+", 1);
 
-      if (command[0].equals("execute_script")) {
-        if (command.length != 2) {
+      if (inputCommand[0].equals("execute_script")) {
+        if (inputCommand.length != 2) {
           System.out.print("Wrong number of arguments\n");
           continue;
         }
         Script script = new Script();
         try {
-          script.load(command[1]);
+          script.load(inputCommand[1]);
         } catch (IllegalArgumentException e) {
           System.out.println(e.getMessage());
           continue;
@@ -115,50 +96,28 @@ public class UserInputHandler {
         continue;
       }
 
-      Command out = commands.get(command[0]);
-      if (out == null) {
-        System.out.print(command[0] + " is not a valid command. Type 'help' for a list of valid commands\n");
+      Command command = commands.get(inputCommand[0]);
+      if (command == null) {
+        System.out.print(inputCommand[0] + " is not a valid command. Type 'help' for a list of valid commands\n");
       } else {
 
-        if (command[0].equals("add") && command.length == 2) {
-          args = Script.parseInlineDragon(command[1]);
-        } else if (command[0].equals("update") && command.length == 3) {
-          args = Script.parseInlineDragon(command[2]);
-          args.add(command[1]);
-        } else if ((command[0].equals("add_if_max") || command[0].equals("add_if_mim")
-            || command[0].equals("remove_lower"))
-            && command.length == 2) {
-          args = Script.parseInlineDragon(command[1]);
-        } else if (command[0].equals("add") && command.length == 1) {
-          args = this.getDragonFromUser(scanner);
-        } else if (command[0].equals("update") && command.length == 2) {
-          args = this.getDragonFromUser(scanner);
-          args.add(command[1]);
-        } else if ((command[0].equals("add_if_max") || command[0].equals("add_if_min")
-            || command[0].equals("remove_lower"))
-            && command.length == 1) {
-          args = this.getDragonFromUser(scanner);
-        } else if ((command[0].equals("remove_by_id") || (command[0].equals("count_greater_than_cave")))
-            && command.length == 2) {
-          args.clear();
-          args.add(command[1]);
-        } else if ((command[0].equals("help")
-            || (command[0].equals("info"))
-            || (command[0].equals("show"))
-            || (command[0].equals("clear"))
-            || (command[0].equals("save"))
-            || (command[0].equals("exit"))
-            || (command[0].equals("print_descending"))
-            || (command[0].equals(""))
-            || (command[0].equals("print_field_descending_character")))
-            && command.length == 1) {
-          args.clear();
+        if (command.requiresDragon() == true) {
+          if (inputCommand.length == 2) {
+            command.exec(inputCommand[1]);
+          } else if (inputCommand.length == 1) {
+            this.res = command.exec(this.getDragonFromUser(scanner));
+          } else {
+            System.out.println("Wrong number of arguments");
+            continue;
+          }
         } else {
-          System.out.print("Wrong number of arguments\n");
-          continue;
+          if (command.numberOfArgs() == (inputCommand.length - 1)) {
+            this.res = command.exec(inputCommand[1]);
+          } else {
+            System.out.println("Wrong number of arguments");
+            continue;
+          }
         }
-
-        this.res = out.exec(args);
       }
 
       if (this.res != null && this.res.equals("exit")) {
@@ -170,10 +129,10 @@ public class UserInputHandler {
     scanner.close();
   }
 
-  private ArrayList<String> getDragonFromUser(Scanner scanner) {
+  private String getDragonFromUser(Scanner scanner) {
     boolean loop = true;
     int state = 0;
-    ArrayList<String> args = new ArrayList<String>();
+    String args = "";
     String arg;
 
     while (loop) {
@@ -185,7 +144,7 @@ public class UserInputHandler {
             System.out.println("Name should not be empty or null");
             continue;
           }
-          args.add(arg.strip());
+          args += arg.strip();
           state = 1;
           break;
         case 1: // coordinate x: any number. long
@@ -197,7 +156,7 @@ public class UserInputHandler {
             System.out.println("Type a valid number.");
             continue;
           }
-          args.add(arg.strip());
+          args += "," + arg.strip();
           state = 2;
           break;
         case 2: // coordinate y: not null. Long
@@ -209,14 +168,14 @@ public class UserInputHandler {
             System.out.println("Type a valid number. Cannot be null.");
             continue;
           }
-          args.add(arg.strip());
+          args += "," + arg.strip();
           state = 3;
           break;
         case 3: // age: can be null, > 0
           System.out.print("Age: ");
           arg = scanner.nextLine();
           if (arg.isBlank() || arg.isEmpty()) {
-            args.add("");
+            args += "," + "";
             state = 4;
           } else {
             try {
@@ -229,7 +188,7 @@ public class UserInputHandler {
               System.out.println("Type a valid number. Should be > 0. Not null");
               continue;
             }
-            args.add(arg.strip());
+            args += "," + arg.strip();
             state = 4;
           }
           break;
@@ -250,19 +209,19 @@ public class UserInputHandler {
             System.out.println("Wingspan should not be empty or null. Should be > 0");
             continue;
           }
-          args.add(arg.strip());
+          args += "," + arg.strip();
           state = 5;
           break;
         case 5: // type: can be null (WATER, UNDERGROUND, AIR, FIRE)
           System.out.print("Dragon Type (WATER/UNDERGROUND/AIR/FIRE): ");
           arg = scanner.nextLine();
           if (arg.isBlank() || arg.isEmpty()) {
-            args.add("");
+            args += "," + "";
             state = 6;
           } else {
             try {
               DragonType.valueOf(arg.toUpperCase());
-              args.add(arg.strip().toUpperCase());
+              args += "," + arg.strip().toUpperCase();
               state = 6;
             } catch (Exception e) {
               System.out.println("Invalid option.");
@@ -274,12 +233,12 @@ public class UserInputHandler {
           System.out.print("Dragon Character (WISE, GOOD, CHAOTIC, CHAOTIC_EVIL): ");
           arg = scanner.nextLine();
           if (arg.isBlank() || arg.isEmpty()) {
-            args.add("");
+            args += "," + " ";
             state = 7;
           } else {
             try {
               DragonCharacter.valueOf(arg.toUpperCase());
-              args.add(arg.strip().toUpperCase());
+              args += "," + arg.strip().toUpperCase();
               state = 7;
             } catch (Exception e) {
               System.out.println("Invalid option.");
@@ -293,7 +252,7 @@ public class UserInputHandler {
           if (arg.isBlank() || arg.isEmpty() || arg.toLowerCase().equals("y")) {
             state = 8;
           } else if (arg.toLowerCase().equals("n")) {
-            args.add("");
+            args += "," + "";
             state = 9;
           } else {
             continue;
@@ -304,7 +263,7 @@ public class UserInputHandler {
           arg = scanner.nextLine();
           try {
             Long.parseLong(arg);
-            args.add(arg.strip());
+            args += "," + arg.strip();
             state = 9;
           } catch (NumberFormatException e) {
             System.out.println("Type a valid number. Should be > 0. Not null");

@@ -18,7 +18,7 @@ public class Clear implements Command {
   }
 
   @Override
-  public String exec(ArrayList<String> args) {
+  public String exec(String args) {
     collection.clear();
     return "Collection cleared\n";
   }
@@ -30,5 +30,15 @@ public class Clear implements Command {
     res += "Adds a new element to the collection\n";
     res += "Each attribute will be typed on a new line";
     return res;
+  }
+
+  @Override
+  public int numberOfArgs() {
+    return 0;
+  }
+
+  @Override
+  public boolean requiresDragon() {
+    return false;
   }
 }

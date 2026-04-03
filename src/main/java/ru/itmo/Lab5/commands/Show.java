@@ -18,7 +18,7 @@ public class Show implements Command {
   }
 
   @Override
-  public String exec(ArrayList<String> args) {
+  public String exec(String arg) {
     String show = this.collection.toString();
     return show;
   }
@@ -29,5 +29,15 @@ public class Show implements Command {
     res += " - show:\n";
     res += "Shows all elements from collection:";
     return res;
+  }
+
+  @Override
+  public int numberOfArgs() {
+    return 0;
+  }
+
+  @Override
+  public boolean requiresDragon() {
+    return false;
   }
 }

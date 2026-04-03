@@ -18,20 +18,20 @@ public class RemoveById implements Command {
   }
 
   @Override
-  public String exec(ArrayList<String> args) {
+  public String exec(String arg) {
     String res = "";
 
-    try {
-      long id = Long.parseLong(args.get(0));
-      collection.remove(id);
-    } catch (Exception e) {
-      res += "Problem with the id: " + e.getMessage() + "\n";
-    }
-
-    if (res.isBlank() || res.isEmpty()) {
-      res += "Dragon removed\n";
-    }
-
+    // try {
+    // long id = Long.parseLong(args.get(0));
+    // collection.remove(id);
+    // } catch (Exception e) {
+    // res += "Problem with the id: " + e.getMessage() + "\n";
+    // }
+    //
+    // if (res.isBlank() || res.isEmpty()) {
+    // res += "Dragon removed\n";
+    // }
+    //
     return res;
   }
 
@@ -41,5 +41,15 @@ public class RemoveById implements Command {
     res += " - remove_by_id id:\n";
     res += "Removes the element with the specified id";
     return res;
+  }
+
+  @Override
+  public int numberOfArgs() {
+    return 0;
+  }
+
+  @Override
+  public boolean requiresDragon() {
+    return false;
   }
 }

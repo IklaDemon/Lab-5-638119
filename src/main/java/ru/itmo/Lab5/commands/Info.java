@@ -18,7 +18,7 @@ public class Info implements Command {
   }
 
   @Override
-  public String exec(ArrayList<String> args) {
+  public String exec(String args) {
     String info = this.collection.info();
     return info;
   }
@@ -29,5 +29,15 @@ public class Info implements Command {
     res += " - info:\n";
     res += "Prints information about the collection:";
     return res;
+  }
+
+  @Override
+  public int numberOfArgs() {
+    return 0;
+  }
+
+  @Override
+  public boolean requiresDragon() {
+    return false;
   }
 }

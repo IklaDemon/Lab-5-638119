@@ -1,8 +1,8 @@
 package ru.itmo.Lab5;
 
+import ru.itmo.Lab5.console.CLI;
 import ru.itmo.Lab5.manager.CollectionManager;
 import ru.itmo.Lab5.reader.XMLParser;
-import ru.itmo.Lab5.userInput.UserInputHandler;
 import ru.itmo.Lab5.writer.XMLWriter;
 
 /**
@@ -20,7 +20,7 @@ public class App {
         CollectionManager collectionManager = new CollectionManager(xmlParser, xmlWriter, env);
 
         // getting the commands from the user...
-        UserInputHandler userInputHandler = new UserInputHandler(collectionManager);
+        CLI userInputHandler = new CLI(collectionManager);
         userInputHandler.runCLI();
 
       } else {

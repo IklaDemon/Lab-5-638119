@@ -17,7 +17,7 @@ public class Help implements Command {
   }
 
   @Override
-  public String exec(ArrayList<String> args) {
+  public String exec(String args) {
     String res = "";
 
     for (Command command : this.commands.values()) {
@@ -33,5 +33,15 @@ public class Help implements Command {
     res += " - help:\n";
     res += "Shows help about available commands";
     return res;
+  }
+
+  @Override
+  public int numberOfArgs() {
+    return 0;
+  }
+
+  @Override
+  public boolean requiresDragon() {
+    return false;
   }
 }

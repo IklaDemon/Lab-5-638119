@@ -27,7 +27,6 @@
 package ru.itmo.Lab5.dragon;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 
 import ru.itmo.Lab5.enums.DragonCharacter;
@@ -59,6 +58,17 @@ public class Dragon implements Comparable<Dragon> {
     type = null;
     character = null;
     cave = null;
+  }
+
+  // the string should have 8 parts to be complete (7 comas)
+  public Dragon(String strDragon) {
+    System.out.println("Creating dragon...");
+
+    String[] strParts = strDragon.split(",");
+
+    for (String string : strParts) {
+      System.out.println(string);
+    }
   }
 
   public Dragon(Builder builder) {
