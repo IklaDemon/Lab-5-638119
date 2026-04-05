@@ -1,8 +1,3 @@
-/**
- * TODO: убрать валидацию из команды
- * TODO: уменьшить InputReader (the user input handler: the if else are awful)
- */
-
 package ru.itmo.Lab5.console;
 
 import java.util.ArrayDeque;
