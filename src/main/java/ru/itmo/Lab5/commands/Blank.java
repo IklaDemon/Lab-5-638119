@@ -1,7 +1,5 @@
 package ru.itmo.Lab5.commands;
 
-import java.util.ArrayList;
-
 import ru.itmo.Lab5.interfaces.Command;
 
 public class Blank implements Command {

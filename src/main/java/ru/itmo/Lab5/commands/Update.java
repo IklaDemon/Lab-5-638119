@@ -1,9 +1,8 @@
 package ru.itmo.Lab5.commands;
 
-import java.util.ArrayList;
-import ru.itmo.Lab5.dragon.Coordinates;
+import java.util.Date;
 import ru.itmo.Lab5.dragon.Dragon;
-import ru.itmo.Lab5.dragon.DragonCave;
+import ru.itmo.Lab5.dragon.DragonMaker;
 import ru.itmo.Lab5.interfaces.Command;
 import ru.itmo.Lab5.manager.CollectionManager;
 
@@ -22,108 +21,38 @@ public class Update implements Command {
 
   @Override
   public String exec(String arg) {
+    String args[] = arg.split("\\s+");
+    if (args.length != this.numberOfArgs()) {
+      return "Wrong number of argument/s. " + this.numberOfArgs() + " argument/s are needed\n";
+    }
+    long id;
+    try {
+      id = Long.parseLong(args[8]);
+    } catch (Exception e) {
+      return "Wrong ID format\n";
+    }
+    Date creationDate;
+    try {
+      creationDate = collection.findById(id).getCreationDate();
+    } catch (NullPointerException e) {
+      return "No dragon with given ID";
+    }
+    DragonMaker dragonMaker = new DragonMaker();
+    Dragon newDragon;
 
-    String res = "";
-    // long ID;
-    // Dragon.Builder dragonBuilder = new Dragon.Builder();
-    //
-    // if (args.size() != 9) {
-    // res += "Not enough arguments for the dragon\n";
-    // return res;
-    // }
-    //
-    // // creating a new ID
-    // try {
-    // ID = Long.parseLong(args.get(8));
-    // dragonBuilder.id(ID);
-    // } catch (IllegalArgumentException e) {
-    // res += "Problem with the id: " + e.getMessage() + "\n";
-    // }
-    //
-    // // Dragon name
-    // try {
-    // dragonBuilder.name(args.get(0));
-    // } catch (Exception e) {
-    // res += "Problem with the name: " + e.getMessage() + "\n";
-    // }
-    //
-    // // Coordinates
-    // try {
-    // Coordinates coordinate = new Coordinates(0L, 0L);
-    // coordinate.setX(Long.parseLong(args.get(1)));
-    // coordinate.setY(Long.parseLong(args.get(2)));
-    // dragonBuilder.coordinates(coordinate);
-    // } catch (Exception e) {
-    // res += "Problem with the coordinate: " + e.getMessage() + "\n";
-    // }
-    //
-    // // Dragon age
-    // try {
-    // if (args.get(3).isBlank() || args.get(3).isEmpty() ||
-    // args.get(3).toLowerCase().equals("null")) {
-    // dragonBuilder.age(null);
-    // } else {
-    // dragonBuilder.age(Integer.parseInt(args.get(3)));
-    // }
-    // } catch (Exception e) {
-    // res += "Problem with the age: " + e.getMessage() + "\n";
-    // }
-    //
-    // // Wingspan
-    // try {
-    // dragonBuilder.wingspan(Double.parseDouble(args.get(4)));
-    // } catch (Exception e) {
-    // res += "Problem with the wingspan: " + e.getMessage() + "\n";
-    // }
-    //
-    // // Dragon type
-    // try {
-    // if (args.get(5).isBlank() || args.get(5).isEmpty() ||
-    // args.get(5).toLowerCase().equals("null")) {
-    // dragonBuilder.type(null);
-    // } else {
-    // dragonBuilder.type(args.get(5));
-    // }
-    // } catch (Exception e) {
-    // res += "Problem with the dragon type: " + e.getMessage() + "\n";
-    // }
-    //
-    // // Dragon character
-    // try {
-    // if (args.get(6).isBlank() || args.get(6).isEmpty() ||
-    // args.get(6).toLowerCase().equals("null")) {
-    // dragonBuilder.character(null);
-    // } else {
-    // dragonBuilder.character(args.get(6));
-    // }
-    // } catch (Exception e) {
-    // res += "Problem with the dragon character: " + e.getMessage() + "\n";
-    // }
-    //
-    // // Cave
-    // try {
-    // if (args.get(7).isBlank() || args.get(7).isEmpty() ||
-    // args.get(7).toLowerCase().equals("null")) {
-    // dragonBuilder.cave(null);
-    // } else {
-    // dragonBuilder.cave(new DragonCave(Double.parseDouble(args.get(7))));
-    // }
-    // } catch (Exception e) {
-    // res += "Problem with the dragon cave: " + e.getMessage() + "\n";
-    // }
-    //
-    // try {
-    // dragonBuilder.creationDate(collection.findById(Long.parseLong(args.get(8))).getCreationDate());
-    // collection.update(Long.parseLong(args.get(8)), dragonBuilder.build());
-    // } catch (Exception e) {
-    // res += "Not possible to update: " + e.getMessage() + "\n";
-    // }
-    //
-    // if (res.isBlank()) {
-    // res += "Dragon updated" + "\n";
-    // }
+    try {
+      newDragon = dragonMaker.make(args[0], id, creationDate);
+    } catch (IllegalArgumentException e) {
+      return dragonMaker.getErrors();
+    }
 
-    return res;
+    try {
+      collection.update(id, newDragon);
+    } catch (Exception e) {
+      return "Not possible to update: " + e.getMessage() + "\n";
+    }
+
+    return "Dragon updated" + "\n";
   }
 
   @Override

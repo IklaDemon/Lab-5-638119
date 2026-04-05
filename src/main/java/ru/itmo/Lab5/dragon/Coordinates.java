@@ -13,6 +13,11 @@ public class Coordinates {
     setY(y);
   }
 
+  public Coordinates(String x, String y) {
+    setX(x);
+    setY(y);
+  }
+
   public void setX(long x) {
     this.x = x;
   }
@@ -22,6 +27,25 @@ public class Coordinates {
       throw new NullPointerException("y = null. Should not be null");
     }
     this.y = y;
+  }
+
+  public void setX(String x) {
+    try {
+      this.x = Long.parseLong(x);
+    } catch (Exception e) {
+      throw new IllegalArgumentException("Invalid long number for x");
+    }
+  }
+
+  public void setY(String y) {
+    if (y == null) {
+      throw new IllegalArgumentException("y should not be null");
+    }
+    try {
+      this.y = Long.parseLong(y);
+    } catch (Exception e) {
+      throw new IllegalArgumentException("Invalid long number for y");
+    }
   }
 
   public long getX() {

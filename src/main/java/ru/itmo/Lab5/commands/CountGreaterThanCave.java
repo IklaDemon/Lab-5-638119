@@ -1,6 +1,5 @@
 package ru.itmo.Lab5.commands;
 
-import java.util.ArrayList;
 import ru.itmo.Lab5.interfaces.Command;
 import ru.itmo.Lab5.manager.CollectionManager;
 
@@ -18,19 +17,23 @@ public class CountGreaterThanCave implements Command {
   }
 
   @Override
-  public String exec(String args) {
-    String res = "";
-    // double treasures = 0;
-    // try {
-    // treasures = Double.parseDouble(args.get(0));
-    // if (treasures <= 0)
-    // return "Cave number should be > 0";
-    // int n = collection.nGreaterThanCave(treasures);
-    // return n + "\n";
-    // } catch (Exception e) {
-    // res += "Invalid argument: " + e.getMessage() + "\n";
-    // }
-    return res;
+  public String exec(String arg) {
+    String args[] = arg.split("\\s+");
+
+    if (args.length != this.numberOfArgs()) {
+      return "Wrong number of argument/s. " + this.numberOfArgs() + " argument/s are needed\n";
+    }
+
+    double treasures = 0;
+    try {
+      treasures = Double.parseDouble(args[0]);
+      if (treasures <= 0)
+        return "Cave number should be > 0";
+      int n = collection.nGreaterThanCave(treasures);
+      return n + "\n";
+    } catch (Exception e) {
+      return "Invalid argument: " + e.getMessage() + "\n";
+    }
   }
 
   @Override

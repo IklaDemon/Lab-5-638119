@@ -1,6 +1,5 @@
 package ru.itmo.Lab5.commands;
 
-import java.util.ArrayList;
 import ru.itmo.Lab5.interfaces.Command;
 import ru.itmo.Lab5.manager.CollectionManager;
 
@@ -19,20 +18,20 @@ public class RemoveById implements Command {
 
   @Override
   public String exec(String arg) {
-    String res = "";
+    String args[] = arg.split("\\s+");
 
-    // try {
-    // long id = Long.parseLong(args.get(0));
-    // collection.remove(id);
-    // } catch (Exception e) {
-    // res += "Problem with the id: " + e.getMessage() + "\n";
-    // }
-    //
-    // if (res.isBlank() || res.isEmpty()) {
-    // res += "Dragon removed\n";
-    // }
-    //
-    return res;
+    if (args.length != this.numberOfArgs()) {
+      return "Wrong number of argument/s. " + this.numberOfArgs() + " argument/s are needed\n";
+    }
+
+    try {
+      long id = Long.parseLong(args[0]);
+      collection.remove(id);
+    } catch (Exception e) {
+      return "Problem with the id: " + e.getMessage() + "\n";
+    }
+
+    return "Dragon removed\n";
   }
 
   @Override

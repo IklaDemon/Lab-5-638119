@@ -6,7 +6,6 @@
 package ru.itmo.Lab5.console;
 
 import java.util.ArrayDeque;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -97,27 +96,54 @@ public class CLI {
       }
 
       Command command = commands.get(inputCommand[0]);
+      // System.out.println("Got command: " + command);
       if (command == null) {
         System.out.print(inputCommand[0] + " is not a valid command. Type 'help' for a list of valid commands\n");
       } else {
 
-        if (command.requiresDragon() == true) {
+        String arg = "";
+
+        if (command.requiresDragon()) {
+          if (inputCommand.length == 1) {
+            arg += this.getDragonFromUser(scanner);
+          }
           if (inputCommand.length == 2) {
-            command.exec(inputCommand[1]);
-          } else if (inputCommand.length == 1) {
-            this.res = command.exec(this.getDragonFromUser(scanner));
-          } else {
-            System.out.println("Wrong number of arguments");
-            continue;
+            arg += inputCommand[1];
+          }
+          if (inputCommand.length == 3) {
+            arg += inputCommand[1];
+            arg += inputCommand[2];
           }
         } else {
-          if (command.numberOfArgs() == (inputCommand.length - 1)) {
-            this.res = command.exec(inputCommand[1]);
-          } else {
-            System.out.println("Wrong number of arguments");
-            continue;
+          for (int i = 1; i < inputCommand.length; i++) {
+            arg += inputCommand[i];
+            if (i < (inputCommand.length - 1)) {
+              arg += " ";
+            }
           }
         }
+
+        this.res = command.exec(arg);
+
+        // if (command.requiresDragon() == true) {
+        // System.out.println("Command requires Dragon");
+        // if (inputCommand.length == 2) {
+        // command.exec(inputCommand[1]);
+        // } else if (inputCommand.length == 1) {
+        // this.res = command.exec(this.getDragonFromUser(scanner));
+        // } else {
+        // System.out.println("Wrong number of arguments");
+        // continue;
+        // }
+        // } else {
+        // System.out.println("Command does not requires Dragon");
+        // if (command.numberOfArgs() == (inputCommand.length - 1)) {
+        // this.res = command.exec(inputCommand[1]);
+        // } else {
+        // System.out.println("Wrong number of arguments");
+        // continue;
+        // }
+        // }
       }
 
       if (this.res != null && this.res.equals("exit")) {
@@ -175,7 +201,7 @@ public class CLI {
           System.out.print("Age: ");
           arg = scanner.nextLine();
           if (arg.isBlank() || arg.isEmpty()) {
-            args += "," + "";
+            args += "," + "null";
             state = 4;
           } else {
             try {
@@ -216,7 +242,7 @@ public class CLI {
           System.out.print("Dragon Type (WATER/UNDERGROUND/AIR/FIRE): ");
           arg = scanner.nextLine();
           if (arg.isBlank() || arg.isEmpty()) {
-            args += "," + "";
+            args += "," + "null";
             state = 6;
           } else {
             try {
@@ -233,7 +259,7 @@ public class CLI {
           System.out.print("Dragon Character (WISE, GOOD, CHAOTIC, CHAOTIC_EVIL): ");
           arg = scanner.nextLine();
           if (arg.isBlank() || arg.isEmpty()) {
-            args += "," + " ";
+            args += "," + "null";
             state = 7;
           } else {
             try {
@@ -252,7 +278,7 @@ public class CLI {
           if (arg.isBlank() || arg.isEmpty() || arg.toLowerCase().equals("y")) {
             state = 8;
           } else if (arg.toLowerCase().equals("n")) {
-            args += "," + "";
+            args += "," + "null";
             state = 9;
           } else {
             continue;

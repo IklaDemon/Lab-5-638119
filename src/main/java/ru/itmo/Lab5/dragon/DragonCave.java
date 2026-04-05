@@ -10,6 +10,10 @@ public class DragonCave {
     setNumberOfTreasures(numberOfTreasures);
   }
 
+  public DragonCave(String numberOfTreasures) {
+    setNumberOfTreasures(numberOfTreasures);
+  }
+
   public void setNumberOfTreasures(Double numberOfTreasures) {
     if (numberOfTreasures == null) {
       throw new NullPointerException("numberOfTreasures = null. Should not be null");
@@ -18,6 +22,15 @@ public class DragonCave {
       throw new IllegalArgumentException("numberOfTreasures = " + numberOfTreasures + ". Should be > 0");
     }
     this.numberOfTreasures = numberOfTreasures;
+  }
+
+  public void setNumberOfTreasures(String numberOfTreasures) {
+    try {
+      Double doubleNumberOfTreasures = Double.parseDouble(numberOfTreasures);
+      this.setNumberOfTreasures(doubleNumberOfTreasures);
+    } catch (Exception e) {
+      throw new IllegalArgumentException("Invalid Double number for number of treasures");
+    }
   }
 
   public Double getNumberOfTreasures() {

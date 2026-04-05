@@ -60,17 +60,6 @@ public class Dragon implements Comparable<Dragon> {
     cave = null;
   }
 
-  // the string should have 8 parts to be complete (7 comas)
-  public Dragon(String strDragon) {
-    System.out.println("Creating dragon...");
-
-    String[] strParts = strDragon.split(",");
-
-    for (String string : strParts) {
-      System.out.println(string);
-    }
-  }
-
   public Dragon(Builder builder) {
     this.id = builder.id;
     this.name = builder.name;
@@ -239,11 +228,30 @@ public class Dragon implements Comparable<Dragon> {
     }
   }
 
+  public void setAge(String age) {
+
+    try {
+      Integer intAge = Integer.parseInt(age);
+      this.setAge(intAge);
+    } catch (IllegalArgumentException e) {
+      throw e;
+    }
+  }
+
   public void setWingspan(double wingspan) {
     if (wingspan <= 0.0) {
       throw new IllegalArgumentException("wingspan = " + wingspan + ". Should be > 0");
     }
     this.wingspan = wingspan;
+  }
+
+  public void setWingspan(String wingspan) {
+    try {
+      double doubleWingspan = Double.parseDouble(wingspan);
+      this.setWingspan(doubleWingspan);
+    } catch (Exception e) {
+      throw new IllegalArgumentException("Invalid fouble for wingspan");
+    }
   }
 
   public void setType(String type) {
