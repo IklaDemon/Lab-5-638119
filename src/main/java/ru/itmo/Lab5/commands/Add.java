@@ -32,7 +32,6 @@ public class Add implements Command {
 
   @Override
   public String exec(String arg) {
-
     String args[] = arg.split("\\s+");
 
     if (args.length != this.numberOfArgs()) {

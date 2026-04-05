@@ -22,7 +22,6 @@ public class AddIfMax implements Command {
   @Override
   public String exec(String arg) {
     String args[] = arg.split("\\s+");
-
     if (args.length != this.numberOfArgs()) {
       return "Wrong number of argument/s. " + this.numberOfArgs() + " argument/s are needed\n";
     }
