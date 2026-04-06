@@ -25,9 +25,8 @@ public class Clear implements Command {
   @Override
   public String usage() {
     String res = "";
-    res += " - add {element}:\n";
-    res += "Adds a new element to the collection\n";
-    res += "Each attribute will be typed on a new line";
+    res += " - clear:\n";
+    res += "deletes everything";
     return res;
   }
 

@@ -47,7 +47,7 @@ public class AddIfMin implements Command {
         collection.addDragon(newDragon);
         return "Added new Dragon: " + newDragon.getName() + "\n";
       } else {
-        return newDragon.getName() + " is smaller than " + minDragon.getName() +
+        return newDragon.getName() + " is bigger than " + minDragon.getName() +
             "\n";
       }
     }

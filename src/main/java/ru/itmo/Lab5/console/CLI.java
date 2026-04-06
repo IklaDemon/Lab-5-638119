@@ -70,7 +70,7 @@ public class CLI {
         }
       }
 
-      inputCommand = commandBuffer.poll().split("\\s+", 1);
+      inputCommand = commandBuffer.poll().split("\\s+", 2);
 
       if (inputCommand[0].equals("execute_script")) {
         if (inputCommand.length != 2) {
@@ -91,54 +91,25 @@ public class CLI {
       }
 
       Command command = commands.get(inputCommand[0]);
-      // System.out.println("Got command: " + command);
       if (command == null) {
         System.out.print(inputCommand[0] + " is not a valid command. Type 'help' for a list of valid commands\n");
+        continue;
       } else {
 
         String arg = "";
 
-        if (command.requiresDragon()) {
-          if (inputCommand.length == 1) {
-            arg += this.getDragonFromUser(scanner);
-          }
-          if (inputCommand.length == 2) {
-            arg += inputCommand[1];
-          }
-          if (inputCommand.length == 3) {
-            arg += inputCommand[1];
-            arg += inputCommand[2];
-          }
-        } else {
-          for (int i = 1; i < inputCommand.length; i++) {
-            arg += inputCommand[i];
-            if (i < (inputCommand.length - 1)) {
-              arg += " ";
-            }
+        for (int i = 1; i < inputCommand.length; i++) {
+          arg += inputCommand[i];
+          if (i < (inputCommand.length - 1)) {
+            arg += " ";
           }
         }
 
+        if (command.requiresDragon() && (arg.split(" ").length == (command.numberOfArgs() - 1) || arg.isBlank())) {
+          arg += " " + this.getDragonFromUser(scanner);
+          arg = arg.strip();
+        }
         this.res = command.exec(arg);
-
-        // if (command.requiresDragon() == true) {
-        // System.out.println("Command requires Dragon");
-        // if (inputCommand.length == 2) {
-        // command.exec(inputCommand[1]);
-        // } else if (inputCommand.length == 1) {
-        // this.res = command.exec(this.getDragonFromUser(scanner));
-        // } else {
-        // System.out.println("Wrong number of arguments");
-        // continue;
-        // }
-        // } else {
-        // System.out.println("Command does not requires Dragon");
-        // if (command.numberOfArgs() == (inputCommand.length - 1)) {
-        // this.res = command.exec(inputCommand[1]);
-        // } else {
-        // System.out.println("Wrong number of arguments");
-        // continue;
-        // }
-        // }
       }
 
       if (this.res != null && this.res.equals("exit")) {
@@ -163,6 +134,10 @@ public class CLI {
           arg = scanner.nextLine();
           if (arg.isBlank() || arg.isEmpty()) {
             System.out.println("Name should not be empty or null");
+            continue;
+          }
+          if (arg.matches(".*\\s+.*")) {
+            System.out.println("White spaces are not allowed");
             continue;
           }
           args += arg.strip();

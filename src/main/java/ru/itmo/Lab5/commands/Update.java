@@ -27,7 +27,7 @@ public class Update implements Command {
     }
     long id;
     try {
-      id = Long.parseLong(args[8]);
+      id = Long.parseLong(args[0]);
     } catch (Exception e) {
       return "Wrong ID format\n";
     }
@@ -41,7 +41,7 @@ public class Update implements Command {
     Dragon newDragon;
 
     try {
-      newDragon = dragonMaker.make(args[0], id, creationDate);
+      newDragon = dragonMaker.make(args[1], id, creationDate);
     } catch (IllegalArgumentException e) {
       return dragonMaker.getErrors();
     }
@@ -71,6 +71,6 @@ public class Update implements Command {
 
   @Override
   public boolean requiresDragon() {
-    return false;
+    return true;
   }
 }

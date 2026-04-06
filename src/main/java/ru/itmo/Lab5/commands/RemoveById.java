@@ -44,7 +44,7 @@ public class RemoveById implements Command {
 
   @Override
   public int numberOfArgs() {
-    return 0;
+    return 1;
   }
 
   @Override

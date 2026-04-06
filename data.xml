@@ -1,45 +1,19 @@
 <dragons>
     <dragon>
         <id>1</id>
-        <name>robert-2</name>
+        <name>Paarthurnax</name>
         <coordinates>
-            <x>1</x>
-            <y>1</y>
+            <x>20</x>
+            <y>10</y>
         </coordinates>
-        <creationDate>10-11-2024</creationDate>
-        <age></age>
-        <wingspan>1.0</wingspan>
-        <type></type>
-        <character></character>
-        <cave></cave>
-    </dragon>
-    <dragon>
-        <id>5</id>
-        <name>Bimbo</name>
-        <coordinates>
-            <x>5</x>
-            <y>2</y>
-        </coordinates>
-        <creationDate>09-03-2026</creationDate>
-        <age></age>
-        <wingspan>30.0</wingspan>
-        <type></type>
-        <character></character>
-        <cave></cave>
-    </dragon>
-    <dragon>
-        <id>7</id>
-        <name>robert-1</name>
-        <coordinates>
-            <x>1</x>
-            <y>1</y>
-        </coordinates>
-        <creationDate>24-03-2026</creationDate>
-        <age></age>
-        <wingspan>1.0</wingspan>
-        <type></type>
-        <character></character>
-        <cave></cave>
+        <creationDate>06-04-2026</creationDate>
+        <age>900</age>
+        <wingspan>40.0</wingspan>
+        <type>FIRE</type>
+        <character>WISE</character>
+        <cave>
+            <numberOfTreasures>5.0</numberOfTreasures>
+        </cave>
     </dragon>
     <dragon>
         <id>2</id>
@@ -49,54 +23,28 @@
             <y>10</y>
         </coordinates>
         <creationDate>01-06-2023</creationDate>
-        <age></age>
-        <wingspan>30.1</wingspan>
-        <type>AIR</type>
-        <character>GOOD</character>
-        <cave></cave>
-    </dragon>
-    <dragon>
-        <id>6</id>
-        <name>Salve</name>
-        <coordinates>
-            <x>18924</x>
-            <y>2938042</y>
-        </coordinates>
-        <creationDate>09-03-2026</creationDate>
-        <age></age>
-        <wingspan>2.9038432E7</wingspan>
-        <type></type>
-        <character></character>
-        <cave></cave>
-    </dragon>
-    <dragon>
-        <id>4</id>
-        <name>Soc</name>
-        <coordinates>
-            <x>1</x>
-            <y>1</y>
-        </coordinates>
-        <creationDate>09-03-2026</creationDate>
-        <age></age>
-        <wingspan>123721.0</wingspan>
-        <type></type>
-        <character></character>
-        <cave></cave>
-    </dragon>
-    <dragon>
-        <id>3</id>
-        <name>Bambo</name>
-        <coordinates>
-            <x>5</x>
-            <y>20</y>
-        </coordinates>
-        <creationDate>09-03-2026</creationDate>
-        <age>20</age>
-        <wingspan>30.0</wingspan>
-        <type>AIR</type>
-        <character>GOOD</character>
+        <age>700</age>
+        <wingspan>70.0</wingspan>
+        <type>FIRE</type>
+        <character>CHAOTIC</character>
         <cave>
-            <numberOfTreasures>10.0</numberOfTreasures>
+            <numberOfTreasures>20.0</numberOfTreasures>
+        </cave>
+    </dragon>
+    <dragon>
+        <id>8</id>
+        <name>Kalameet</name>
+        <coordinates>
+            <x>20</x>
+            <y>30</y>
+        </coordinates>
+        <creationDate>06-04-2026</creationDate>
+        <age>300</age>
+        <wingspan>200.0</wingspan>
+        <type>UNDERGROUND</type>
+        <character>CHAOTIC</character>
+        <cave>
+            <numberOfTreasures>2.0</numberOfTreasures>
         </cave>
     </dragon>
 </dragons>
