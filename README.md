@@ -44,3 +44,10 @@ java -cp target/Lab5-1.0-SNAPSHOT.jar ru.itmo.Lab5.App
 ```bash
 mvn clean
 ```
+
+## Generate JavaDoc
+```bash
+mvn javadoc:javadoc
+The documentation will be available here: target/reports/apidocs/index.html
+```
+
