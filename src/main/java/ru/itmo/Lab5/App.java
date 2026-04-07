@@ -6,11 +6,28 @@ import ru.itmo.Lab5.reader.XMLParser;
 import ru.itmo.Lab5.writer.XMLWriter;
 
 /**
- * Entry point of the application
- * Checks the environment variable
- * Allocates the Collection Manager with a writer and reader for the file
+ * Starts the application and initializes the main components required for work
+ * with the collection.
+ *
+ * <p>
+ * The method reads the {@code path_to_xml} environment variable, creates
+ * the parser, writer and collection manager, and then starts the command-line
+ * interface. If the environment variable is missing or empty, usage
+ * instructions
+ * are printed to the console.
  */
 public class App {
+
+  /**
+   * Launches the application.
+   *
+   * <p>
+   * Checks the {@code path_to_xml} environment variable, initializes the
+   * XML parser, XML writer and collection manager, and starts the command-line
+   * interface.
+   *
+   * @param args command-line arguments passed to the application
+   */
   public static void main(String[] args) {
     try {
       String env = System.getenv("path_to_xml");

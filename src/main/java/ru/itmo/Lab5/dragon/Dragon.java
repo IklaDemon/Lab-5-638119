@@ -1,39 +1,18 @@
-// implement a builder pattern for Dragon class - done
-//
-// check for CRUD pattern. related to CollectionManager - kind of done
-//
-// the methods related to the commands should be under a common interface
-//       Public String describe()... Maybe I should do a class for every command? There's no difference I guess
-//       and every command class should have a describe method... - kind of done
-//
-// Il prodotto finale dovrebbe essere come il jar finale del Lab pokemon che abbiamo importato
-//
-// nel README.md dovrebbero essere presenti le indicazioni per: versions, compile, install, clean
-// non ho ben capito cosa dovrebbe essere install
-//
-// For the "exit" command it's possible to use just System.exit(), But if modifications were made, probably is also better to ask for confirmation to the user
-//
-// I should use a proper XML parser.
-// 
-// NOTA: The commands should be adapted to support TCP/IP in the future
-//
-// The teacher mentioned the "Java stram API" and the filter method, I should check that.
-// -> found some resources: https://www.geeksforgeeks.org/java/stream-filter-java-examples/
-//
-// Looks like the hardest command is the scrpit one, well, its the most interesting one also.
-// If all exceptions are correctly managed, then it should not be hard to implement it.
-// Good insight: if in the script is present "execute_script file_name" then my program should not do it, for obvious reasons...
 
 package ru.itmo.Lab5.dragon;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
 import ru.itmo.Lab5.enums.DragonCharacter;
 import ru.itmo.Lab5.enums.DragonType;
 
 /**
- * Represents a Dragon object stored in the collection.
+ * Represents a dragon stored in the collection.
+ *
+ * <p>
+ * A dragon contains identifying data, coordinates, creation date,
+ * optional characteristics and cave information. Instances can be
+ * compared by wingspan and, if equal, by id.
  */
 public class Dragon implements Comparable<Dragon> {
   private long id; // The value of this field must be greater than 0, The value of this field must
@@ -48,6 +27,9 @@ public class Dragon implements Comparable<Dragon> {
   private DragonCharacter character; // The field may be null
   private DragonCave cave; // The field may be null
 
+  /**
+   * Creates an empty dragon instance with default field values.
+   */
   public Dragon() {
     id = 0;
     name = null;
@@ -60,6 +42,11 @@ public class Dragon implements Comparable<Dragon> {
     cave = null;
   }
 
+  /**
+   * Creates a dragon from the specified builder.
+   *
+   * @param builder builder containing dragon field values
+   */
   public Dragon(Builder builder) {
     this.id = builder.id;
     this.name = builder.name;
@@ -72,8 +59,9 @@ public class Dragon implements Comparable<Dragon> {
     this.cave = builder.cave;
   }
 
-  // --- BUILDER ---
-
+  /**
+   * Builds {@link Dragon} objects step by step with validation of field values.
+   */
   public static class Builder {
     private long id;
     private String name;
@@ -85,6 +73,13 @@ public class Dragon implements Comparable<Dragon> {
     private DragonCharacter character;
     private DragonCave cave;
 
+    /**
+     * Sets the dragon id.
+     *
+     * @param id dragon id, must be greater than 0
+     * @return this builder instance
+     * @throws IllegalArgumentException if {@code id <= 0}
+     */
     public Builder id(long id) {
       if (id <= 0) {
         throw new IllegalArgumentException("id = " + id + ". Shoul be > 0");
@@ -93,6 +88,14 @@ public class Dragon implements Comparable<Dragon> {
       return this;
     }
 
+    /**
+     * Sets the dragon name.
+     *
+     * @param name dragon name, must not be null or empty
+     * @return this builder instance
+     * @throws NullPointerException     if {@code name} is null
+     * @throws IllegalArgumentException if {@code name} is empty
+     */
     public Builder name(String name) {
       if (name == null) {
         throw new NullPointerException("name = null. Should not be null");
@@ -104,6 +107,13 @@ public class Dragon implements Comparable<Dragon> {
       return this;
     }
 
+    /**
+     * Sets the dragon coordinates.
+     *
+     * @param coordinates dragon coordinates
+     * @return this builder instance
+     * @throws NullPointerException if {@code coordinates} is null
+     */
     public Builder coordinates(Coordinates coordinates) {
       if (coordinates == null) {
         throw new NullPointerException("coordinates = null. Should not be null");
@@ -112,6 +122,13 @@ public class Dragon implements Comparable<Dragon> {
       return this;
     }
 
+    /**
+     * Sets the dragon creation date.
+     *
+     * @param creationDate creation date
+     * @return this builder instance
+     * @throws NullPointerException if {@code creationDate} is null
+     */
     public Builder creationDate(Date creationDate) {
       if (creationDate == null) {
         throw new NullPointerException("creationDate = null. Should not be null");
@@ -120,6 +137,13 @@ public class Dragon implements Comparable<Dragon> {
       return this;
     }
 
+    /**
+     * Sets the dragon age.
+     *
+     * @param age dragon age, may be null, otherwise must be greater than 0
+     * @return this builder instance
+     * @throws IllegalArgumentException if {@code age <= 0}
+     */
     public Builder age(Integer age) {
       if (age == null) {
         this.age = null;
@@ -131,6 +155,13 @@ public class Dragon implements Comparable<Dragon> {
       return this;
     }
 
+    /**
+     * Sets the dragon wingspan.
+     *
+     * @param wingspan wingspan value, must be greater than 0
+     * @return this builder instance
+     * @throws IllegalArgumentException if {@code wingspan <= 0}
+     */
     public Builder wingspan(double wingspan) {
       if (wingspan <= 0.0) {
         throw new IllegalArgumentException("wingspan = " + wingspan + ". Should be > 0");
@@ -139,6 +170,14 @@ public class Dragon implements Comparable<Dragon> {
       return this;
     }
 
+    /**
+     * Sets the dragon type from its string representation.
+     *
+     * @param type dragon type name, may be null
+     * @return this builder instance
+     * @throws IllegalArgumentException if the value does not match any enum
+     *                                  constant
+     */
     public Builder type(String type) {
       if (type == null) {
         this.type = null;
@@ -152,6 +191,14 @@ public class Dragon implements Comparable<Dragon> {
       return this;
     }
 
+    /**
+     * Sets the dragon character from its string representation.
+     *
+     * @param character dragon character name, may be null
+     * @return this builder instance
+     * @throws IllegalArgumentException if the value does not match any enum
+     *                                  constant
+     */
     public Builder character(String character) {
       if (character == null) {
         this.character = null;
@@ -165,11 +212,22 @@ public class Dragon implements Comparable<Dragon> {
       return this;
     }
 
+    /**
+     * Sets the dragon cave.
+     *
+     * @param cave dragon cave, may be null
+     * @return this builder instance
+     */
     public Builder cave(DragonCave cave) {
       this.cave = cave;
       return this;
     }
 
+    /**
+     * Creates a validated {@link Dragon} instance from the current builder state.
+     *
+     * @return created dragon
+     */
     public Dragon build() {
       Dragon d = new Dragon();
       d.setId(this.id);
@@ -185,8 +243,12 @@ public class Dragon implements Comparable<Dragon> {
     }
   }
 
-  // SETTER
-
+  /**
+   * Sets the dragon id.
+   *
+   * @param id dragon id, must be greater than 0
+   * @throws IllegalArgumentException if {@code id <= 0}
+   */
   public void setId(long id) {
     if (id <= 0) {
       throw new IllegalArgumentException("id = " + id + ". Shoul be > 0");
@@ -194,6 +256,13 @@ public class Dragon implements Comparable<Dragon> {
     this.id = id;
   }
 
+  /**
+   * Sets the dragon name.
+   *
+   * @param name dragon name, must not be null or empty
+   * @throws NullPointerException     if {@code name} is null
+   * @throws IllegalArgumentException if {@code name} is empty
+   */
   public void setName(String name) {
     if (name == null) {
       throw new NullPointerException("name = null. Should not be null");
@@ -204,6 +273,12 @@ public class Dragon implements Comparable<Dragon> {
     this.name = name;
   }
 
+  /**
+   * Sets the dragon coordinates.
+   *
+   * @param coordinates dragon coordinates
+   * @throws NullPointerException if {@code coordinates} is null
+   */
   public void setCoordinates(Coordinates coordinates) {
     if (coordinates == null) {
       throw new NullPointerException("coordinates = null. Should not be null");
@@ -211,6 +286,12 @@ public class Dragon implements Comparable<Dragon> {
     this.coordinates = coordinates;
   }
 
+  /**
+   * Sets the dragon creation date.
+   *
+   * @param creationDate creation date
+   * @throws NullPointerException if {@code creationDate} is null
+   */
   public void setCreationDate(Date creationDate) {
     if (creationDate == null) {
       throw new NullPointerException("creationDate = null. Should not be null");
@@ -218,6 +299,12 @@ public class Dragon implements Comparable<Dragon> {
     this.creationDate = creationDate;
   }
 
+  /**
+   * Sets the dragon age.
+   *
+   * @param age dragon age, may be null, otherwise must be greater than 0
+   * @throws IllegalArgumentException if {@code age <= 0}
+   */
   public void setAge(Integer age) {
     if (age == null) {
       this.age = age;
@@ -228,6 +315,13 @@ public class Dragon implements Comparable<Dragon> {
     }
   }
 
+  /**
+   * Parses and sets the dragon age from a string.
+   *
+   * @param age string representation of age
+   * @throws IllegalArgumentException if the value is invalid or not greater than
+   *                                  0
+   */
   public void setAge(String age) {
 
     try {
@@ -238,6 +332,12 @@ public class Dragon implements Comparable<Dragon> {
     }
   }
 
+  /**
+   * Sets the dragon wingspan.
+   *
+   * @param wingspan wingspan value, must be greater than 0
+   * @throws IllegalArgumentException if {@code wingspan <= 0}
+   */
   public void setWingspan(double wingspan) {
     if (wingspan <= 0.0) {
       throw new IllegalArgumentException("wingspan = " + wingspan + ". Should be > 0");
@@ -245,6 +345,13 @@ public class Dragon implements Comparable<Dragon> {
     this.wingspan = wingspan;
   }
 
+  /**
+   * Parses and sets the dragon wingspan from a string.
+   *
+   * @param wingspan string representation of wingspan
+   * @throws IllegalArgumentException if the value cannot be parsed or is not
+   *                                  greater than 0
+   */
   public void setWingspan(String wingspan) {
     try {
       double doubleWingspan = Double.parseDouble(wingspan);
@@ -254,6 +361,13 @@ public class Dragon implements Comparable<Dragon> {
     }
   }
 
+  /**
+   * Sets the dragon type from its string representation.
+   *
+   * @param type dragon type name, may be null
+   * @throws IllegalArgumentException if the value does not match any enum
+   *                                  constant
+   */
   public void setType(String type) {
     if (type == null) {
       this.type = null;
@@ -266,6 +380,13 @@ public class Dragon implements Comparable<Dragon> {
     }
   }
 
+  /**
+   * Sets the dragon character from its string representation.
+   *
+   * @param character dragon character name, may be null
+   * @throws IllegalArgumentException if the value does not match any enum
+   *                                  constant
+   */
   public void setCharacter(String character) {
     if (character == null) {
       this.character = null;
@@ -278,11 +399,14 @@ public class Dragon implements Comparable<Dragon> {
     }
   }
 
+  /**
+   * Sets the dragon cave.
+   *
+   * @param cave dragon cave, may be null
+   */
   public void setCave(DragonCave cave) {
     this.cave = cave;
   }
-
-  // GETTER
 
   public long getId() {
     return id;
@@ -320,6 +444,17 @@ public class Dragon implements Comparable<Dragon> {
     return cave;
   }
 
+  /**
+   * Compares this dragon with another dragon.
+   *
+   * <p>
+   * Dragons are ordered first by wingspan and then by id.
+   *
+   * @param other dragon to compare with
+   * @return a negative value, zero, or a positive value if this dragon is less
+   *         than,
+   *         equal to, or greater than the specified dragon
+   */
   @Override
   public int compareTo(Dragon other) {
     int byWingspan = Double.compare(this.wingspan, other.wingspan);
@@ -329,6 +464,11 @@ public class Dragon implements Comparable<Dragon> {
     return Long.compare(this.id, other.id);
   }
 
+  /**
+   * Returns a string representation of this dragon.
+   *
+   * @return formatted string containing the main dragon fields
+   */
   @Override
   public String toString() {
     String age;

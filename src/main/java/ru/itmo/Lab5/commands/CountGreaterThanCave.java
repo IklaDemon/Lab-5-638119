@@ -4,11 +4,18 @@ import ru.itmo.Lab5.interfaces.Command;
 import ru.itmo.Lab5.manager.CollectionManager;
 
 /**
- * Weird command that does what the exercise asked for
+ * Command that counts dragons whose cave value is greater than
+ * the specified number of treasures.
  */
 public class CountGreaterThanCave implements Command {
   private CollectionManager collection;
 
+  /**
+   * Creates the command with the specified collection manager.
+   *
+   * @param collection collection manager used to access the collection
+   * @throws NullPointerException if {@code collection} is null
+   */
   public CountGreaterThanCave(CollectionManager collection) {
     if (collection == null) {
       throw new NullPointerException("Collection manager is null");
@@ -16,6 +23,16 @@ public class CountGreaterThanCave implements Command {
     this.collection = collection;
   }
 
+  /**
+   * Executes the count_greater_than_cave command.
+   *
+   * <p>
+   * Parses the specified cave value and returns the number of dragons
+   * whose cave contains more treasures than that value.
+   *
+   * @param arg command argument containing the number of treasures
+   * @return result message of the execution
+   */
   @Override
   public String exec(String arg) {
     String args[] = arg.split("\\s+");
@@ -36,6 +53,11 @@ public class CountGreaterThanCave implements Command {
     }
   }
 
+  /**
+   * Returns the usage description of the command.
+   *
+   * @return usage string
+   */
   @Override
   public String usage() {
     String res = "";
@@ -44,11 +66,21 @@ public class CountGreaterThanCave implements Command {
     return res;
   }
 
+  /**
+   * Returns the number of arguments required by this command.
+   *
+   * @return required number of arguments
+   */
   @Override
   public int numberOfArgs() {
     return 1;
   }
 
+  /**
+   * Indicates that this command does not require dragon data.
+   *
+   * @return {@code false}
+   */
   @Override
   public boolean requiresDragon() {
     return false;

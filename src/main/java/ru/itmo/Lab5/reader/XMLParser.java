@@ -7,7 +7,6 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.PriorityQueue;
 import java.util.Set;
-
 import ru.itmo.Lab5.dragon.Coordinates;
 import ru.itmo.Lab5.dragon.Dragon;
 import ru.itmo.Lab5.dragon.DragonCave;
@@ -20,18 +19,36 @@ import org.w3c.dom.Node;
 import org.w3c.dom.Element;
 
 /**
- * Reads Dragon objects from an XML file.
+ * Reads dragons from an XML file.
+ *
+ * <p>
+ * This class parses the XML structure, validates dragon fields,
+ * and returns the loaded collection together with the set of used ids.
  */
 public class XMLParser implements Reader {
   private static final String DATE_PATTERN = "dd-MM-yyyy";
   private File file;
   private Set<Long> iDs;
 
+  /**
+   * Creates a parser for the specified XML file.
+   *
+   * @param filePath path to the XML file
+   * @throws NullPointerException     if {@code filePath} is null
+   * @throws IllegalArgumentException if the path is empty, invalid, or unreadable
+   */
   public XMLParser(String filePath) {
     setFilePath(filePath);
     iDs = new HashSet<Long>();
   }
 
+  /**
+   * Reads dragons from the XML file.
+   *
+   * @return priority queue containing parsed dragons
+   * @throws RuntimeException if the file cannot be parsed or contains invalid
+   *                          data
+   */
   @Override
   public PriorityQueue<Dragon> read() {
     PriorityQueue<Dragon> dragons = new PriorityQueue<>();
@@ -62,11 +79,25 @@ public class XMLParser implements Reader {
     }
   }
 
+  /**
+   * Returns the set of dragon ids read from the XML file.
+   *
+   * @return set of used ids
+   */
   @Override
   public Set<Long> getIDs() {
     return iDs;
   }
 
+  /**
+   * Sets and validates the XML file path.
+   *
+   * @param filePath path to the XML file
+   * @throws NullPointerException     if {@code filePath} is null
+   * @throws IllegalArgumentException if the path is empty, does not point to a
+   *                                  file,
+   *                                  or the file cannot be read
+   */
   public void setFilePath(String filePath) {
     if (filePath == null) {
       throw new NullPointerException("filePath is null. Should not be null");
@@ -86,6 +117,13 @@ public class XMLParser implements Reader {
     this.file = file;
   }
 
+  /**
+   * Parses a dragon from the specified XML element.
+   *
+   * @param dragonElement XML element containing dragon data
+   * @return parsed dragon
+   * @throws IllegalArgumentException if one or more fields are missing or invalid
+   */
   private Dragon parseDragon(Element dragonElement) {
     Dragon.Builder dragonBuilder = new Dragon.Builder();
 
@@ -178,6 +216,14 @@ public class XMLParser implements Reader {
     return dragonBuilder.build();
   }
 
+  /**
+   * Returns the text content of the specified child element.
+   *
+   * @param parent  parent XML element
+   * @param tagName child tag name
+   * @return child text content, or {@code null} if the child element does not
+   *         exist
+   */
   private String getChildText(Element parent, String tagName) {
     Element child = getChildElement(parent, tagName);
     if (child == null) {
@@ -186,6 +232,13 @@ public class XMLParser implements Reader {
     return child.getTextContent();
   }
 
+  /**
+   * Returns the first direct child element with the specified tag name.
+   *
+   * @param parent  parent XML element
+   * @param tagName child tag name
+   * @return matching child element, or {@code null} if not found
+   */
   private Element getChildElement(Element parent, String tagName) {
     NodeList children = parent.getChildNodes();
 
@@ -200,6 +253,13 @@ public class XMLParser implements Reader {
     return null;
   }
 
+  /**
+   * Parses a date string using the configured date pattern.
+   *
+   * @param value string representation of the date
+   * @return parsed date
+   * @throws ParseException if the value does not match the expected format
+   */
   private Date parseDate(String value) throws ParseException {
     SimpleDateFormat formatter = new SimpleDateFormat(DATE_PATTERN);
     formatter.setLenient(false);

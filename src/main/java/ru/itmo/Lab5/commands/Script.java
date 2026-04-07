@@ -8,20 +8,49 @@ import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
 
+/**
+ * Represents a script loader for reading and expanding command scripts.
+ *
+ * <p>
+ * This class supports nested script execution, keeps track of visited
+ * script files to prevent recursion, and returns the resulting list of
+ * commands.
+ */
 public class Script {
   private File scriptFilePath;
   private Set<String> history;
   private ArrayList<String> commands;
 
+  /**
+   * Creates a script handler with empty command history and command list.
+   */
   public Script() {
     this.history = new HashSet<String>();
     this.commands = new ArrayList<String>();
   }
 
+  /**
+   * Loads the script file from the specified path.
+   *
+   * @param scriptPath path to the script file
+   * @throws NullPointerException     if {@code scriptPath} is null
+   * @throws IllegalArgumentException if the path is empty, invalid, or unreadable
+   */
   public void load(String scriptPath) {
     this.scriptFilePath = this.getFile(scriptPath);
   }
 
+  /**
+   * Returns the list of commands read from the loaded script.
+   *
+   * <p>
+   * The method clears previous state, reads the script file, expands nested
+   * {@code execute_script} instructions, and prevents infinite recursion.
+   *
+   * @return list of commands from the script
+   * @throws IllegalArgumentException if the canonical path of the script cannot
+   *                                  be obtained
+   */
   public ArrayList<String> getCommands() {
     commands.clear();
     history.clear();
@@ -37,6 +66,15 @@ public class Script {
     return new ArrayList<>(this.commands);
   }
 
+  /**
+   * Reads commands from the specified script file.
+   *
+   * <p>
+   * If an {@code execute_script} command is encountered, the referenced script
+   * is read recursively unless it would create a loop.
+   *
+   * @param script script file to read
+   */
   private void readScript(File script) {
     String canonicalPath;
     try {
@@ -71,6 +109,12 @@ public class Script {
     }
   }
 
+  /**
+   * Splits an inline dragon representation into separate field values.
+   *
+   * @param inlineDragon comma-separated dragon data
+   * @return list of parsed dragon fields
+   */
   public static ArrayList<String> parseInlineDragon(String inlineDragon) {
     // ID,name,coordinates.x,coordinates.y,creationDate,age,wingspan,type,character,cave.
     // ---1----2-------------3--------------------------4---5--------6----7---------8
@@ -83,6 +127,15 @@ public class Script {
     return dragonParts;
   }
 
+  /**
+   * Returns a validated file object for the specified path.
+   *
+   * @param filePath path to the file
+   * @return readable file object
+   * @throws NullPointerException     if {@code filePath} is null
+   * @throws IllegalArgumentException if the path is empty, invalid, or not
+   *                                  readable
+   */
   private File getFile(String filePath) {
     if (filePath == null) {
       throw new NullPointerException("filePath is null. Should not be null");

@@ -10,15 +10,33 @@ import ru.itmo.Lab5.dragon.Dragon;
 import ru.itmo.Lab5.interfaces.Writer;
 
 /**
- * Writes Dragon objects to an XML file.
+ * Writes dragons to an XML file.
+ *
+ * <p>
+ * This class serializes the collection of dragons into the XML format
+ * used by the application.
  */
 public class XMLWriter implements Writer {
   private String filePath;
 
+  /**
+   * Creates a writer for the specified file path.
+   *
+   * @param filePath path to the output XML file
+   * @throws NullPointerException     if {@code filePath} is null
+   * @throws IllegalArgumentException if the path is empty or not writable
+   */
   public XMLWriter(String filePath) {
     setFilePath(filePath);
   }
 
+  /**
+   * Writes the given collection of dragons to the XML file.
+   *
+   * @param input collection of dragons to write
+   * @return {@code true} if writing completed successfully, {@code false}
+   *         otherwise
+   */
   @Override
   public boolean write(PriorityQueue<Dragon> input) {
     try (FileWriter writer = new FileWriter(filePath, false)) {
@@ -65,10 +83,16 @@ public class XMLWriter implements Writer {
     return true;
   }
 
-  /*
-   * In this setter I'm just checking if I can write the file if exists...
-   * If file does not exists then process can just create it (in this case
-   * permissions should not be a problem).
+  /**
+   * Sets and validates the output file path.
+   *
+   * <p>
+   * If the file already exists, it must be a writable regular file.
+   *
+   * @param filePath path to the output file
+   * @throws NullPointerException     if {@code filePath} is null
+   * @throws IllegalArgumentException if the path is empty or the file is not
+   *                                  writable
    */
   public void setFilePath(String filePath) {
     if (filePath == null) {

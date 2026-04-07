@@ -2,15 +2,39 @@ package ru.itmo.Lab5.dragon;
 
 import java.util.Date;
 
+/**
+ * Creates {@link Dragon} objects from their string representation.
+ *
+ * <p>
+ * This class validates parsed values and collects error messages
+ * that can be retrieved after a failed creation attempt.
+ */
 public class DragonMaker {
   private String errors;
 
+  /**
+   * Creates a new dragon maker with an empty error buffer.
+   */
   public DragonMaker() {
     errors = "";
   }
 
-  // the string should have 8 parts to be complete (7 comas)
-  // add name,x,y,age,wing,type,character,cave
+  /**
+   * Creates a {@link Dragon} from a comma-separated string and generated
+   * metadata.
+   *
+   * <p>
+   * The input string must contain exactly 8 fields in the expected order.
+   * If one or more fields are invalid, the method stores detailed messages
+   * that can be obtained through {@link #getErrors()} and throws an exception.
+   *
+   * @param strDragon    comma-separated dragon data
+   * @param id           generated dragon id
+   * @param creationDate generated creation date
+   * @return created dragon
+   * @throws IllegalArgumentException if the input format is invalid or the dragon
+   *                                  cannot be created
+   */
   public Dragon make(String strDragon, long id, Date creationDate) {
     this.errors = "";
     String[] strParts = strDragon.split(",");
@@ -102,6 +126,11 @@ public class DragonMaker {
     }
   }
 
+  /**
+   * Returns the collected error messages from the last creation attempt.
+   *
+   * @return error description string
+   */
   public String getErrors() {
     return errors;
   }

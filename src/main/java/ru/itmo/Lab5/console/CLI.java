@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Queue;
 import java.util.Scanner;
-
 import ru.itmo.Lab5.commands.*;
 import ru.itmo.Lab5.enums.DragonCharacter;
 import ru.itmo.Lab5.enums.DragonType;
@@ -14,9 +13,11 @@ import ru.itmo.Lab5.interfaces.Command;
 import ru.itmo.Lab5.manager.CollectionManager;
 
 /**
- * This class handles the user interaction with the app.
- * Asks input to the user and sanitizes it a bit, then gives the input to the
- * proper command
+ * Handles user interaction through the command-line interface.
+ *
+ * <p>
+ * This class reads user input, dispatches commands, supports script execution,
+ * and collects dragon data interactively when required.
  */
 public class CLI {
   private Map<String, Command> commands;
@@ -24,6 +25,12 @@ public class CLI {
   Queue<String> commandBuffer;
   private String res;
 
+  /**
+   * Creates a CLI instance and registers all available commands.
+   *
+   * @param collectionManager collection manager used by the commands
+   * @throws NullPointerException if {@code collectionManager} is null
+   */
   public CLI(CollectionManager collectionManager) {
     if (collectionManager == null)
       throw new NullPointerException();
@@ -48,6 +55,14 @@ public class CLI {
     this.commands.put("help", new Help(this.commands));
   }
 
+  /**
+   * Starts the command-line interface loop.
+   *
+   * <p>
+   * Reads commands from standard input or from the internal command buffer,
+   * executes them, and prints the result until the exit command is received
+   * or the input stream is closed.
+   */
   public void runCLI() {
     String[] inputCommand;
     Scanner scanner = new Scanner(System.in);
@@ -121,6 +136,16 @@ public class CLI {
     scanner.close();
   }
 
+  /**
+   * Interactively reads dragon field values from the user.
+   *
+   * <p>
+   * The method validates each entered value and returns a comma-separated
+   * string representation of the dragon data.
+   *
+   * @param scanner scanner used to read user input
+   * @return comma-separated dragon data
+   */
   private String getDragonFromUser(Scanner scanner) {
     boolean loop = true;
     int state = 0;

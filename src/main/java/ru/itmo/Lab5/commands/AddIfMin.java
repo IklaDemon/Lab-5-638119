@@ -7,11 +7,18 @@ import ru.itmo.Lab5.interfaces.Command;
 import ru.itmo.Lab5.manager.CollectionManager;
 
 /**
- * Command that AddIfMin a dragon
+ * Command that adds a dragon to the collection only if it is smaller
+ * than the current minimum element.
  */
 public class AddIfMin implements Command {
   private CollectionManager collection;
 
+  /**
+   * Creates the command with the specified collection manager.
+   *
+   * @param collection collection manager used to access the collection
+   * @throws NullPointerException if {@code collection} is null
+   */
   public AddIfMin(CollectionManager collection) {
     if (collection == null) {
       throw new NullPointerException("Collection manager is null");
@@ -19,6 +26,16 @@ public class AddIfMin implements Command {
     this.collection = collection;
   }
 
+  /**
+   * Executes the add_if_min command.
+   *
+   * <p>
+   * Creates a new dragon and adds it to the collection only if it is
+   * smaller than the current minimum dragon.
+   *
+   * @param arg command argument containing dragon data
+   * @return result message of the execution
+   */
   @Override
   public String exec(String arg) {
     String args[] = arg.split("\\s+");
@@ -53,6 +70,11 @@ public class AddIfMin implements Command {
     }
   }
 
+  /**
+   * Returns the usage description of the command.
+   *
+   * @return usage string
+   */
   @Override
   public String usage() {
     String res = "";
@@ -61,11 +83,21 @@ public class AddIfMin implements Command {
     return res;
   }
 
+  /**
+   * Returns the number of arguments required by this command.
+   *
+   * @return required number of arguments
+   */
   @Override
   public int numberOfArgs() {
     return 1;
   }
 
+  /**
+   * Indicates that this command requires dragon data.
+   *
+   * @return {@code true}
+   */
   @Override
   public boolean requiresDragon() {
     return true;

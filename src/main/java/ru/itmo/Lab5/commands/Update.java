@@ -7,11 +7,17 @@ import ru.itmo.Lab5.interfaces.Command;
 import ru.itmo.Lab5.manager.CollectionManager;
 
 /**
- * Update command
+ * Command that updates a dragon with the specified identifier.
  */
 public class Update implements Command {
   private CollectionManager collection;
 
+  /**
+   * Creates the command with the specified collection manager.
+   *
+   * @param collection collection manager used to access the collection
+   * @throws NullPointerException if {@code collection} is null
+   */
   public Update(CollectionManager collection) {
     if (collection == null) {
       throw new NullPointerException("Collection manager is null");
@@ -19,6 +25,16 @@ public class Update implements Command {
     this.collection = collection;
   }
 
+  /**
+   * Executes the update command.
+   *
+   * <p>
+   * Finds the dragon with the specified id, creates a new dragon
+   * from the provided data, and replaces the old element.
+   *
+   * @param arg command arguments containing the id and dragon data
+   * @return result message of the execution
+   */
   @Override
   public String exec(String arg) {
     String args[] = arg.split("\\s+");
@@ -55,6 +71,11 @@ public class Update implements Command {
     return "Dragon updated" + "\n";
   }
 
+  /**
+   * Returns the usage description of the command.
+   *
+   * @return usage string
+   */
   @Override
   public String usage() {
     String res = "";
@@ -64,11 +85,21 @@ public class Update implements Command {
     return res;
   }
 
+  /**
+   * Returns the number of arguments required by this command.
+   *
+   * @return required number of arguments
+   */
   @Override
   public int numberOfArgs() {
     return 2;
   }
 
+  /**
+   * Indicates that this command requires dragon data.
+   *
+   * @return {@code true}
+   */
   @Override
   public boolean requiresDragon() {
     return true;

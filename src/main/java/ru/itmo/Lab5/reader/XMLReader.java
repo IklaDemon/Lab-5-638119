@@ -9,17 +9,11 @@ import java.util.HashSet;
 import java.util.PriorityQueue;
 import java.util.Scanner;
 import java.util.Set;
-
 import ru.itmo.Lab5.dragon.Coordinates;
 import ru.itmo.Lab5.dragon.Dragon;
 import ru.itmo.Lab5.dragon.DragonCave;
 import ru.itmo.Lab5.interfaces.Reader;
 
-/**
- * Reads Dragon objects from an XML file.
- * This class is not used.
- * Is my first attempt with a reader
- */
 public class XMLReader implements Reader {
   private File file;
   private Set<Long> iDs;
