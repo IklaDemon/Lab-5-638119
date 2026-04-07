@@ -21,8 +21,8 @@ import ru.itmo.Lab5.manager.CollectionManager;
  */
 public class CLI {
   private Map<String, Command> commands;
-  CollectionManager collectionManager;
-  Queue<String> commandBuffer;
+  private CollectionManager collectionManager;
+  private Queue<String> commandBuffer;
   private String res;
 
   /**
